@@ -89,6 +89,10 @@
 
 ![输入图片说明](pic/%E8%8D%A3%E8%AA%89.jpg)
 
+### 视频教程
+
+![输入图片说明](pic/%E5%B0%81%E9%9D%A2.png)
+<a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5MjY3OTk0OQ==&action=getalbum&album_id=2790222720155451398#wechat_redirect" target="_blank">RuoYi-activiti开发指南</a>
 
 ### 附录：中央技术储备仓库（Central Technique Reserve Repository）
 
@@ -147,9 +151,6 @@
 38. 并发控制：使用zookeeper实现分布式锁 
 39. 并发控制：Java多线程编程实例
 40. 并发控制：使用netty实现高性能NIO通信 
-### 视频教程
 
-![输入图片说明](pic/%E5%B0%81%E9%9D%A2.png)
-<a href="https://mp.weixin.qq.com/s/s7vCaIlD5STMJuKMwzM32Q" target="_blank">RuoYi-activiti开发指南</a>
 ### 关注微信公众号获取更多技术文章和源码
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/1022/183316_f03b4f99_1110335.jpeg "qrcode_for_gh_4c2318bb0f7f_258.jpg")
