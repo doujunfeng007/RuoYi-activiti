@@ -89,11 +89,6 @@
 
 ![输入图片说明](pic/%E8%8D%A3%E8%AA%89.jpg)
 
-### 视频教程
-| ![输入图片说明](pic/%E5%B0%81%E9%9D%A2.png) |
-|--|
-|<div align=center><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5MjY3OTk0OQ==&action=getalbum&album_id=2790222720155451398#wechat_redirect" target="_blank">RuoYi-activiti开发指南</a></div> |
-
 
 ### 著作权
 #### 匠心巨制，震撼上市
