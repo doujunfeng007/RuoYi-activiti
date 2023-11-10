@@ -94,12 +94,12 @@
 #### 系统全面学习Elasticsearch
 ![输入图片说明](https://gitee.com/shenzhanwang/Spring-elastic_search/raw/master/pic/mmexport1680185330486.jpg)
 
-[《Elasticsearch数据搜索与分析实战》](https://item.m.jd.com/product/13872844.html?gx=RnAomTM2bmHZw5sSrtV0X1UR8iqxJMU&gxd=RnAoy2Fdaj3fy5wdr4V0VNgSE8OMXuDPgPv0y0mTsfJiDQg&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL)
+<a href="https://item.m.jd.com/product/13872844.html?gx=RnAomTM2bmHZw5sSrtV0X1UR8iqxJMU&gxd=RnAoy2Fdaj3fy5wdr4V0VNgSE8OMXuDPgPv0y0mTsfJiDQg&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL" target="_blank">《Elasticsearch数据搜索与分析实战》</a>
 
 #### 系统学习和深入掌握Activiti/Flowable
 ![输入图片说明](pic/ACTIVITI-%E8%B0%83%E6%95%B4.png)
 
-[《深入Activiti流程引擎：核心原理与高阶实战》](https://item.m.jd.com/product/13928958.html?gx=RnAomTM2bmCImZxDqYAkVCoIHuIYVqc)
+<a href="https://item.m.jd.com/product/13928958.html?gx=RnAomTM2bmCImZxDqYAkVCoIHuIYVqc" target="_blank">《深入Activiti流程引擎：核心原理与高阶实战》</a> 
 |购买地址|
 |--|
 |![输入图片说明](https://gitee.com/shenzhanwang/RuoYi-activiti/raw/ruoyi-activiti/pic/%E8%B4%AD%E4%B9%B0.jpg)|
