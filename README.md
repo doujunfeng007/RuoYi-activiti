@@ -95,6 +95,7 @@
 #### 系统学习和深入掌握Activiti/Flowable
 <a href="https://item.m.jd.com/product/13928958.html?gx=RnAomTM2bmCImZxDqYAkVCoIHuIYVqc" target="_blank"><img src="https://gitee.com/shenzhanwang/RuoYi-activiti/raw/ruoyi-activiti/pic/ACTIVITI-%E8%B0%83%E6%95%B4.png" alt="点击购买"></a>
 
+
 ### 专利文章
 |   | 标题 | 技术领域 |
 |---|----|------|
@@ -104,6 +105,9 @@
 | 4 |  [一种基于工作流引擎的自动化办公方法和系统](https://mp.weixin.qq.com/s?__biz=Mzg5MjY3OTk0OQ==&mid=2247484895&idx=1&sn=1094f0b9abef603e8126dea68db75cca&chksm=c03b27bdf74caeab50d56ac110b9ab0d36bc9b9069e311083a5c4295ab03ee4b0595a00a3ba2#rd)  |  工作流引擎    |
 
 
+|购买地址|
+|--|
+|![输入图片说明](https://gitee.com/shenzhanwang/RuoYi-activiti/raw/ruoyi-activiti/pic/%E8%B4%AD%E4%B9%B0.jpg)|
 
 ### 视频教程
 
