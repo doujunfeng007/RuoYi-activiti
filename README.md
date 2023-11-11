@@ -92,8 +92,15 @@
 ### 好书推荐
 #### 系统全面学习Elasticsearch
 <a href="https://item.m.jd.com/product/13872844.html?gx=RnAomTM2bmHZw5sSrtV0X1UR8iqxJMU&gxd=RnAoy2Fdaj3fy5wdr4V0VNgSE8OMXuDPgPv0y0mTsfJiDQg&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL" target="_blank"><img src="https://gitee.com/shenzhanwang/Spring-elastic_search/raw/master/pic/mmexport1680185330486.jpg" alt="点击购买"></a>
+
+|购买地址|
+|--|
+|![输入图片说明](https://gitee.com/shenzhanwang/RuoYi-activiti/raw/ruoyi-activiti/pic/%E8%B4%AD%E4%B9%B0.jpg)|
+
 #### 系统学习和深入掌握Activiti/Flowable
 <a href="https://item.m.jd.com/product/13928958.html?gx=RnAomTM2bmCImZxDqYAkVCoIHuIYVqc" target="_blank"><img src="https://gitee.com/shenzhanwang/RuoYi-activiti/raw/ruoyi-activiti/pic/ACTIVITI-%E8%B0%83%E6%95%B4.png" alt="点击购买"></a>
+
+
 
 
 ### 专利文章
@@ -104,10 +111,6 @@
 | 3 |  [大数据钻取分析方法、装置、设备及存储介质](https://mp.weixin.qq.com/s?__biz=Mzg5MjY3OTk0OQ==&mid=2247484385&idx=1&sn=6fe4a4ac34badd91db39b4cc042a3f18&chksm=c03b2183f74ca89508333f3d5c8330aa32248eda86e4cf7657a5a293e1bf9d49888fe78b1072#rd)  |  大数据分析    |
 | 4 |  [一种基于工作流引擎的自动化办公方法和系统](https://mp.weixin.qq.com/s?__biz=Mzg5MjY3OTk0OQ==&mid=2247484895&idx=1&sn=1094f0b9abef603e8126dea68db75cca&chksm=c03b27bdf74caeab50d56ac110b9ab0d36bc9b9069e311083a5c4295ab03ee4b0595a00a3ba2#rd)  |  工作流引擎    |
 
-
-|购买地址|
-|--|
-|![输入图片说明](https://gitee.com/shenzhanwang/RuoYi-activiti/raw/ruoyi-activiti/pic/%E8%B4%AD%E4%B9%B0.jpg)|
 
 ### 视频教程
 
