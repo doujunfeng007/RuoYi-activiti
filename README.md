@@ -3,6 +3,11 @@
 #### 软件架构
 [若依](http://doc.ruoyi.vip/ruoyi/)是有名的开源权限管理系统，集权限管理和代码快速生成于一体，将其作为基础开发平台集成activiti框架完成工作流引擎开发，打造集流程设计、流程部署、流程执行、任务办理、流程监控于一体的强大工作流平台。
 
+#### 赞助商
+
+- [![驰骋工作流引擎](pic/image.png)](http://ccflow.org/?frm=RY_AC)
+
+
 #### 安装教程
 
 1. 新建mysql数据库ry-activiti，导入SQL脚本ry-activiti.sql。Mysql版本为5.7，字符集选择utf8mb4，排序规则选择utf8mb4_general_ci。
