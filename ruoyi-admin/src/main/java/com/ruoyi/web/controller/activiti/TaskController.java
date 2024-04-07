@@ -47,18 +47,7 @@ public class TaskController extends BaseController {
     private HistoryService historyService;
 
     private String prefix = "activiti/task";
-
-    @GetMapping("/mytask")
-    public String mytasks()
-    {
-        return prefix + "/mytasks";
-    }
-
-    @GetMapping("/alltasks")
-    public String alltasks()
-    {
-        return prefix + "/alltasks";
-    }
+    
 
     /**
      * 查询我的待办任务列表

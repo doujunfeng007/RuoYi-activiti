@@ -55,11 +55,6 @@ public class ModelManageController extends BaseController {
     private String prefix = "activiti/manage";
 
 
-    @GetMapping("")
-    public String modelList() {
-        return prefix + "/modelList";
-    }
-
     @ApiOperation("查询所有模型")
     @RequestMapping(value = "/modelLists", method = RequestMethod.POST)
     @ResponseBody
@@ -79,16 +74,6 @@ public class ModelManageController extends BaseController {
         rspData.setRows(page);
         rspData.setTotal(query.list().size());
         return rspData;
-    }
-
-    /**
-     * 新增模型页面
-     * @return
-     */
-    @GetMapping("/add")
-    public String add()
-    {
-        return prefix + "/add";
     }
 
     /**

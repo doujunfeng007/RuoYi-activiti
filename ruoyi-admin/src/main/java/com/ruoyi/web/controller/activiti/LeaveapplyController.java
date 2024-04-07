@@ -54,32 +54,24 @@ public class LeaveapplyController extends BaseController
     @Resource
     private TaskService taskService;
 
-    @GetMapping()
-    public String leaveapply()
-    {
-        return prefix + "/leaveapply";
-    }
 
     /**
      * 部门领导审批
      * @return
      */
     @GetMapping("/deptleadercheck")
-    public String deptleadercheck(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult deptleadercheck(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Leaveapply apply = leaveapplyService.selectLeaveapplyById(Long.parseLong(p.getBusinessKey()));
-            mmap.put("apply", apply);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("startTime", sdf.format(apply.getStartTime()));
-            mmap.put("endTime", sdf.format(apply.getEndTime()));
-            mmap.put("taskid", taskid);
-            mmap.put("userlist", userService.selectUserList(new SysUser()));
+//            mmap.put("userlist", userService.selectUserList(new SysUser()));
+            return AjaxResult.success(apply);
         }
-        return prefix + "/deptleadercheck";
+        return AjaxResult.error("流程不存在");
     }
 
     /**
@@ -87,20 +79,17 @@ public class LeaveapplyController extends BaseController
      * @return
      */
     @GetMapping("/hrcheck")
-    public String hrcheck(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult hrcheck(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Leaveapply apply = leaveapplyService.selectLeaveapplyById(Long.parseLong(p.getBusinessKey()));
-            mmap.put("apply", apply);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("startTime", sdf.format(apply.getStartTime()));
-            mmap.put("endTime", sdf.format(apply.getEndTime()));
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/hrcheck";
+        return AjaxResult.error("流程不存在");
     }
 
     /**
@@ -108,20 +97,17 @@ public class LeaveapplyController extends BaseController
      * @return
      */
     @GetMapping("/destroyapply")
-    public String destroyapply(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult destroyapply(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Leaveapply apply = leaveapplyService.selectLeaveapplyById(Long.parseLong(p.getBusinessKey()));
-            mmap.put("apply", apply);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("startTime", sdf.format(apply.getStartTime()));
-            mmap.put("endTime", sdf.format(apply.getEndTime()));
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/destroyapply";
+        return AjaxResult.error("流程不存在");
     }
 
 
@@ -130,20 +116,17 @@ public class LeaveapplyController extends BaseController
      * @return
      */
     @GetMapping("/modifyapply")
-    public String modifyapply(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult modifyapply(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Leaveapply apply = leaveapplyService.selectLeaveapplyById(Long.parseLong(p.getBusinessKey()));
-            mmap.put("apply", apply);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("startTime", sdf.format(apply.getStartTime()));
-            mmap.put("endTime", sdf.format(apply.getEndTime()));
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/modifyapply";
+        return AjaxResult.error("流程不存在");
     }
 
     /**
@@ -152,20 +135,17 @@ public class LeaveapplyController extends BaseController
      * @return
      */
     @GetMapping("/addleave")
-    public String addLeave(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult addLeave(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Leaveapply apply = leaveapplyService.selectLeaveapplyById(Long.parseLong(p.getBusinessKey()));
-            mmap.put("apply", apply);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("startTime", sdf.format(apply.getStartTime()));
-            mmap.put("endTime", sdf.format(apply.getEndTime()));
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/addleave";
+        return AjaxResult.error("流程不存在");
     }
 
     /**
@@ -197,16 +177,16 @@ public class LeaveapplyController extends BaseController
         return util.exportExcel(list, "请假数据");
     }
 
+
     /**
-     * 新增请假
+     * 当前登录用户
      */
-    @GetMapping("/add")
-    public String add(ModelMap mmap)
+    @GetMapping("/cuurentUser")
+    @ResponseBody
+    public AjaxResult cuurentUser()
     {
         SysUser user = SecurityUtils.getLoginUser().getUser();
-        mmap.put("user", user);
-        mmap.put("userlist", userService.selectUserList(new SysUser()));
-        return prefix + "/add";
+        return AjaxResult.success(user);
     }
 
     /**

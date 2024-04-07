@@ -76,17 +76,6 @@ public class MeetingController extends BaseController {
         return util.exportExcel(list, "会议数据");
     }
 
-    /**
-     * 新增会议
-     */
-    @GetMapping("/add")
-    public String add(ModelMap mmap)
-    {
-        SysUser user = SecurityUtils.getLoginUser().getUser();
-        mmap.put("user", user);
-        mmap.put("userlist", userService.selectUserList(new SysUser()));
-        return prefix + "/add";
-    }
 
     /**
      * 新增保存会议
@@ -119,39 +108,33 @@ public class MeetingController extends BaseController {
      * 会议签到
      */
     @GetMapping("/signate")
-    public String signate(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult signate(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Meeting apply = meetingService.selectMeetingById(Long.parseLong(p.getBusinessKey()));
-            mmap.put("apply", apply);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("startTime", sdf.format(apply.getStartTime()));
-            mmap.put("endTime", sdf.format(apply.getEndTime()));
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/signate";
+        return AjaxResult.error("流程不存在");
     }
 
     /**
      * 填写会议纪要
      */
     @GetMapping("/input")
-    public String input(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult input(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Meeting apply = meetingService.selectMeetingById(Long.parseLong(p.getBusinessKey()));
-            mmap.put("apply", apply);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("startTime", sdf.format(apply.getStartTime()));
-            mmap.put("endTime", sdf.format(apply.getEndTime()));
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/input";
+        return AjaxResult.error("流程不存在");
     }
 }

@@ -55,11 +55,6 @@ public class PurchaseController extends BaseController
     @Resource
     private TaskService taskService;
 
-    @GetMapping()
-    public String purchase()
-    {
-        return prefix + "/purchase";
-    }
 
     /**
      * 查询采购列表
@@ -85,17 +80,6 @@ public class PurchaseController extends BaseController
         return util.exportExcel(list, "采购数据");
     }
 
-    /**
-     * 新增采购
-     */
-    @GetMapping("/add")
-    public String add(ModelMap mmap)
-    {
-        SysUser user = SecurityUtils.getLoginUser().getUser();
-        mmap.put("user", user);
-        mmap.put("userlist", userService.selectUserList(new SysUser()));
-        return prefix + "/add";
-    }
 
     /**
      * 新增保存采购
@@ -131,113 +115,101 @@ public class PurchaseController extends BaseController
      * 采购经理审批
      */
     @GetMapping("/purchasemanager")
-    public String purchasemanager(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult purchasemanager(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Purchase apply = purchaseService.selectPurchaseById(Long.parseLong(p.getBusinessKey()));
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("applyTime", sdf.format(apply.getApplytime()));
-            mmap.put("apply", apply);
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/purchasemanager";
+        return AjaxResult.error("流程不存在");
     }
 
     /**
      * 财务审批
      */
     @GetMapping("/finance")
-    public String finance(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult finance(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Purchase apply = purchaseService.selectPurchaseById(Long.parseLong(p.getBusinessKey()));
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("applyTime", sdf.format(apply.getApplytime()));
-            mmap.put("apply", apply);
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/finance";
+        return AjaxResult.error("流程不存在");
     }
 
     /**
      * 总经理审批
      */
     @GetMapping("/manager")
-    public String manager(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult manager(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Purchase apply = purchaseService.selectPurchaseById(Long.parseLong(p.getBusinessKey()));
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("applyTime", sdf.format(apply.getApplytime()));
-            mmap.put("apply", apply);
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/manager";
+        return AjaxResult.error("流程不存在");
     }
 
     /**
      * 出纳付款
      */
     @GetMapping("/pay")
-    public String pay(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult pay(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Purchase apply = purchaseService.selectPurchaseById(Long.parseLong(p.getBusinessKey()));
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("applyTime", sdf.format(apply.getApplytime()));
-            mmap.put("apply", apply);
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/pay";
+        return AjaxResult.error("流程不存在");
     }
 
     /**
      * 收货确认
      */
     @GetMapping("/receiveitem")
-    public String receiveitem(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult receiveitem(String taskid, ModelMap mmap)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Purchase apply = purchaseService.selectPurchaseById(Long.parseLong(p.getBusinessKey()));
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("applyTime", sdf.format(apply.getApplytime()));
-            mmap.put("apply", apply);
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/receiveitem";
+        return AjaxResult.error("流程不存在");
     }
 
     /**
      * 调整申请
      */
     @GetMapping("/updateapply")
-    public String updateapply(String taskid, ModelMap mmap)
+    @ResponseBody
+    public AjaxResult updateapply(String taskid, ModelMap mmap)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Purchase apply = purchaseService.selectPurchaseById(Long.parseLong(p.getBusinessKey()));
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mmap.put("applyTime", sdf.format(apply.getApplytime()));
-            mmap.put("apply", apply);
-            mmap.put("taskid", taskid);
+            return AjaxResult.success(apply);
         }
-        return prefix + "/updateapply";
+        return AjaxResult.error("流程不存在");
     }
 }

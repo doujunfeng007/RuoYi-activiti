@@ -72,37 +72,6 @@ public class FlowMonitorController extends BaseController {
 
     private String prefix = "activiti/monitor";
 
-    @GetMapping("/instance")
-    public String processList() {
-        return prefix + "/processInstance";
-    }
-
-    @GetMapping("/history")
-    public String processHistory() {
-        return prefix + "/processHistory";
-    }
-
-    @GetMapping("/execution")
-    public String execution() {
-        return prefix + "/execution";
-    }
-
-    @GetMapping("/job")
-    public String job() {
-        return prefix + "/job";
-    }
-
-    @GetMapping("/historyDetail")
-    public String historyDetail(String processInstanceId, ModelMap mmap) {
-        mmap.put("processInstanceId", processInstanceId);
-        return prefix + "/processHistoryDetail";
-    }
-
-    @GetMapping("/processVariablesDetail")
-    public String processVariablesDetail(String processInstanceId, ModelMap mmap) {
-        mmap.put("processInstanceId", processInstanceId);
-        return prefix + "/processVariablesDetail";
-    }
 
     @ApiOperation("查询所有正在运行的流程实例列表")
     @RequestMapping(value = "/listProcess", method = RequestMethod.POST)

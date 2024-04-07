@@ -58,31 +58,6 @@ public class FlowController extends BaseController {
 
     private String prefix = "activiti/manage";
 
-    @GetMapping("")
-    public String processList()
-    {
-        return prefix + "/processList";
-    }
-
-    @GetMapping("deploy")
-    public String deploy()
-    {
-        return prefix + "/deployProcess";
-    }
-
-    @GetMapping("suspend")
-    public String suspend(@RequestParam("pdid") String pdid, ModelMap mmap)
-    {
-        mmap.put("pdid", pdid);
-        return prefix + "/suspend";
-    }
-
-    @GetMapping("activate")
-    public String activate(@RequestParam("pdid") String pdid, ModelMap mmap)
-    {
-        mmap.put("pdid", pdid);
-        return prefix + "/activate";
-    }
 
     @ApiOperation("上传一个工作流文件")
     @RequestMapping(value = "/uploadworkflow", method = RequestMethod.POST)
