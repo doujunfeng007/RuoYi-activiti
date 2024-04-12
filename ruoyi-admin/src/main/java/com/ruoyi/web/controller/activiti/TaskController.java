@@ -47,7 +47,7 @@ public class TaskController extends BaseController {
     private HistoryService historyService;
 
     private String prefix = "activiti/task";
-    
+
 
     /**
      * 查询我的待办任务列表
