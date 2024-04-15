@@ -124,6 +124,7 @@ export default {
     },
     // 菜单选择事件
     handleSelect(key, keyPath) {
+      debugger;
       this.currentIndex = key;
       const route = this.routers.find(item => item.path === key);
       if (this.ishttp(key)) {
