@@ -6,8 +6,16 @@ function objectToFormData(obj) {
     });
     return fd;
 }
-
+function objectToQueryStr(obj) {
+    let queryStr = "";
+    Object.keys(obj).forEach(key => {
+        queryStr += `&${key}=${obj[key] || ''}`
+    });
+    console.log(queryStr);
+    return queryStr.slice(1);
+}
 
 export default {
-    objectToFormData
+    objectToFormData,
+    objectToQueryStr
 };

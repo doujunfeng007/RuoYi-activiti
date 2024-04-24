@@ -30,14 +30,22 @@ export default {
             type: Function,
             default: () => ([])
         },
-        props: {
-            total: "total",
-            pageNo: "pageNo",
-            pageSize: "pageSize"
+        total: {
+            type: Number,
+            default: 0
         }
-    },
-    computed: {
-        total() {}
     }
 };
 </script>
+
+<style scoped>
+.c-table-template {
+    padding: 8px;
+}
+.c-table-template__toolbar {
+    margin-bottom: 8px;
+}
+.c-table-template__footer {
+    margin-top: 8px;
+}
+</style>
