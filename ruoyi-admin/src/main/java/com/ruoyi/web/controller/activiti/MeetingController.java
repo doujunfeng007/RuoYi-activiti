@@ -10,6 +10,8 @@ import com.ruoyi.system.domain.Meeting;
 import com.ruoyi.system.domain.Purchase;
 import com.ruoyi.system.service.IMeetingService;
 import com.ruoyi.system.service.ISysUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -25,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
+@Api(value = "会议接口")
 @Controller
 @RequestMapping("/meeting")
 public class MeetingController extends BaseController {
@@ -45,16 +47,11 @@ public class MeetingController extends BaseController {
     private IMeetingService meetingService;
 
 
-    @GetMapping()
-    public String meeting()
-    {
-        return prefix + "/meeting";
-    }
-
 
     /**
      * 查询会议列表
      */
+    @ApiOperation("查询会议列表")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(Meeting meeting)
@@ -67,6 +64,7 @@ public class MeetingController extends BaseController {
     /**
      * 导出会议列表
      */
+    @ApiOperation("导出会议列表")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(Meeting meeting)
@@ -80,6 +78,7 @@ public class MeetingController extends BaseController {
     /**
      * 新增保存会议
      */
+    @ApiOperation("新增保存会议")
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(Meeting meeting)
@@ -87,6 +86,7 @@ public class MeetingController extends BaseController {
         return toAjax(meetingService.insertMeeting(meeting));
     }
 
+    @ApiOperation("修改会议申请")
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult edit(Meeting meeting)
@@ -97,6 +97,7 @@ public class MeetingController extends BaseController {
     /**
      * 删除会议
      */
+    @ApiOperation("删除会议")
     @PostMapping( "/remove")
     @ResponseBody
     public AjaxResult remove(String ids)
@@ -107,6 +108,7 @@ public class MeetingController extends BaseController {
     /**
      * 会议签到
      */
+    @ApiOperation("会议签到")
     @GetMapping("/signate")
     @ResponseBody
     public AjaxResult signate(String taskid)
@@ -124,6 +126,7 @@ public class MeetingController extends BaseController {
     /**
      * 填写会议纪要
      */
+    @ApiOperation("填写会议纪要")
     @GetMapping("/input")
     @ResponseBody
     public AjaxResult input(String taskid)
