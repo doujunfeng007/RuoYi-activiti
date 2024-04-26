@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.activiti;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -9,6 +10,7 @@ import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -17,10 +19,7 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.system.domain.Leaveapply;
@@ -56,6 +55,9 @@ public class LeaveapplyController extends BaseController
 
     @Resource
     private TaskService taskService;
+
+    @Resource
+    IdentityService identityService;
 
 
     /**
@@ -231,6 +233,19 @@ public class LeaveapplyController extends BaseController
     public AjaxResult remove(String ids)
     {
         return toAjax(leaveapplyService.deleteLeaveapplyByIds(ids));
+    }
+
+
+    @ApiOperation("发起一个流程")
+    @Log(title = "发起一个流程", businessType = BusinessType.INSERT)
+    @PostMapping("/startProcess")
+    @ResponseBody
+    public AjaxResult startProcess(@RequestParam String pdid)
+    {
+        SysUser user = SecurityUtils.getLoginUser().getUser();
+        identityService.setAuthenticatedUserId(user.getUserName());
+        runtimeService.startProcessInstanceById(pdid);
+        return AjaxResult.success();
     }
 
 }
