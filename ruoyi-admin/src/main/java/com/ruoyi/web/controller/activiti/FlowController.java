@@ -2,19 +2,20 @@ package com.ruoyi.web.controller.activiti;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
-import org.activiti.engine.ProcessEngineConfiguration;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.activiti.engine.*;
 import org.activiti.engine.repository.*;
 import org.activiti.image.ProcessDiagramGenerator;
 import org.apache.commons.io.IOUtils;
@@ -56,7 +57,8 @@ public class FlowController extends BaseController {
     @Resource
     ProcessEngineConfiguration configuration;
 
-    private String prefix = "activiti/manage";
+    @Resource
+    IdentityService identityService;
 
 
     @ApiOperation("上传一个工作流文件")
@@ -213,6 +215,18 @@ public class FlowController extends BaseController {
     @ResponseBody
     public AjaxResult startBiShow() throws Exception {
         runtimeService.startProcessInstanceByKey("bi-show" , "1");
+        return AjaxResult.success();
+    }
+
+    @ApiOperation("发起一个流程")
+    @Log(title = "发起一个流程", businessType = BusinessType.INSERT)
+    @PostMapping("/startProcess")
+    @ResponseBody
+    public AjaxResult startProcess(@RequestParam String pdid)
+    {
+        SysUser user = SecurityUtils.getLoginUser().getUser();
+        identityService.setAuthenticatedUserId(user.getUserName());
+        runtimeService.startProcessInstanceById(pdid);
         return AjaxResult.success();
     }
 }

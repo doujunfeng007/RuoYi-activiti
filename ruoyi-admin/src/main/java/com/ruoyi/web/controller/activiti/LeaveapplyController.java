@@ -42,7 +42,6 @@ import javax.annotation.Resource;
 @RequestMapping("/leaveapply")
 public class LeaveapplyController extends BaseController
 {
-    private String prefix = "activiti/leaveapply";
 
     @Autowired
     private ILeaveapplyService leaveapplyService;
@@ -55,9 +54,6 @@ public class LeaveapplyController extends BaseController
 
     @Resource
     private TaskService taskService;
-
-    @Resource
-    IdentityService identityService;
 
 
     /**
@@ -236,16 +232,5 @@ public class LeaveapplyController extends BaseController
     }
 
 
-    @ApiOperation("发起一个流程")
-    @Log(title = "发起一个流程", businessType = BusinessType.INSERT)
-    @PostMapping("/startProcess")
-    @ResponseBody
-    public AjaxResult startProcess(@RequestParam String pdid)
-    {
-        SysUser user = SecurityUtils.getLoginUser().getUser();
-        identityService.setAuthenticatedUserId(user.getUserName());
-        runtimeService.startProcessInstanceById(pdid);
-        return AjaxResult.success();
-    }
 
 }
