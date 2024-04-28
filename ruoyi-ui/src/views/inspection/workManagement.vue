@@ -1,5 +1,11 @@
 <template>
     <div>
+        <el-tabs v-model="activeName" @tab-click="handleTabClick">
+            <el-tab-pane label="定时作业" name="1"></el-tab-pane>
+            <el-tab-pane label="异步作业" name="2"></el-tab-pane>
+            <el-tab-pane label="挂起作业" name="3"></el-tab-pane>
+            <el-tab-pane label="死亡作业" name="4"></el-tab-pane>
+        </el-tabs>
         <table-template :data="tableData" :total="total">
             <template #columns>
                 <el-table-column
@@ -38,7 +44,8 @@ export default {
     },
     data() {
         return {
-            responseData: {}
+            responseData: {},
+            activeName: "1"
         };
     },
     computed: {
@@ -62,6 +69,23 @@ export default {
         }).then(res => {
             this.responseData = res;
         });
+    },
+    methods: {
+        handleTabClick(tab) {
+            console.log(tab.index);
+            getListJobs(Number(tab.index) + 1, {
+                pageSize: 10,
+                pageNum: 1,
+                isAsc: "asc",
+                processDefinitionId: "",
+                startDate: "",
+                endDate: ""
+                // "params[beginApplyTime]": "",
+                // "params[endApplyTime]": ""
+            }).then(res => {
+                this.responseData = res;
+            });
+        },
     },
 };
 </script>

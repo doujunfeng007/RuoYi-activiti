@@ -3,12 +3,11 @@ import commonUtil from "@/utils/common";
 
 // 获取请假列表
 
-export const getLeaveApplyList = data => {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaa1");
+export const getPurchaseApplyList = data => {
     const queryString = commonUtil.objectToQueryStr(data);
     console.log("aaaaaaaaaaaaaaaaaaaaaaa2", queryString);
     return request({
-        url: '/leaveapply/list',
+        url: '/purchase/list',
         method: 'post',
         data: queryString,
         headers: {
@@ -19,10 +18,10 @@ export const getLeaveApplyList = data => {
 
 // 添加请假
 // http://101.43.32.218:8020/leaveapply/add
-export const addLeave = data => {
+export const addPurchase = data => {
     const fd = commonUtil.objectToFormData(data)
     return request({
-        url: '/leaveapply/add',
+        url: '/purchase/add',
         method: 'post',
         data: fd
     });

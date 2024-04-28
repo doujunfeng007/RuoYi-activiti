@@ -19,7 +19,7 @@
                     label="是否激活">
                 </el-table-column>
                 <el-table-column
-                    prop="suspend"
+                    prop="suspended"
                     label="是否挂起">
                 </el-table-column>
                 <el-table-column
@@ -46,16 +46,8 @@ export default {
     },
     data() {
         return {
-            responseData: {}
+            tableData: []
         };
-    },
-    computed: {
-        tableData() {
-            return this.responseData.rows || []
-        },
-        total() {
-            return this.responseData.total || 0
-        }
     },
     mounted() {
         getListExecutions({
@@ -67,7 +59,13 @@ export default {
             // "params[beginApplyTime]": "",
             // "params[endApplyTime]": ""
         }).then(res => {
-            this.responseData = res;
+            this.tableData = res.map(item => {
+                return {
+                    ...item,
+                    active: item.active ? "是" : "否",
+                    suspended: item.suspended ? "是" : "否"
+                };
+            });
         });
     },
 };
