@@ -8,6 +8,8 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.system.domain.Leaveapply;
 import com.ruoyi.system.service.ISysUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -37,6 +39,7 @@ import javax.annotation.Resource;
  * @author shenzhanwang
  * @date 2022-05-28
  */
+@Api(value = "采购接口")
 @Controller
 @RequestMapping("/purchase")
 public class PurchaseController extends BaseController
@@ -59,6 +62,7 @@ public class PurchaseController extends BaseController
     /**
      * 查询采购列表
      */
+    @ApiOperation("查询采购列表")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(Purchase purchase)
@@ -71,6 +75,7 @@ public class PurchaseController extends BaseController
     /**
      * 导出采购列表
      */
+    @ApiOperation("导出采购列表")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(Purchase purchase)
@@ -84,6 +89,7 @@ public class PurchaseController extends BaseController
     /**
      * 新增保存采购
      */
+    @ApiOperation("新增保存采购")
     @Log(title = "采购", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -93,6 +99,7 @@ public class PurchaseController extends BaseController
         return toAjax(purchaseService.insertPurchase(purchase));
     }
 
+    @ApiOperation("修改采购")
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult edit(Purchase purchase)
@@ -103,6 +110,7 @@ public class PurchaseController extends BaseController
     /**
      * 删除采购
      */
+    @ApiOperation("删除采购")
     @Log(title = "采购", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
@@ -114,6 +122,7 @@ public class PurchaseController extends BaseController
     /**
      * 采购经理审批
      */
+    @ApiOperation("采购经理审批")
     @GetMapping("/purchasemanager")
     @ResponseBody
     public AjaxResult purchasemanager(String taskid)
@@ -131,6 +140,7 @@ public class PurchaseController extends BaseController
     /**
      * 财务审批
      */
+    @ApiOperation("财务审批")
     @GetMapping("/finance")
     @ResponseBody
     public AjaxResult finance(String taskid)
@@ -148,6 +158,7 @@ public class PurchaseController extends BaseController
     /**
      * 总经理审批
      */
+    @ApiOperation("总经理审批")
     @GetMapping("/manager")
     @ResponseBody
     public AjaxResult manager(String taskid)
@@ -165,6 +176,7 @@ public class PurchaseController extends BaseController
     /**
      * 出纳付款
      */
+    @ApiOperation("出纳付款")
     @GetMapping("/pay")
     @ResponseBody
     public AjaxResult pay(String taskid)
@@ -182,6 +194,7 @@ public class PurchaseController extends BaseController
     /**
      * 收货确认
      */
+    @ApiOperation("收货确认")
     @GetMapping("/receiveitem")
     @ResponseBody
     public AjaxResult receiveitem(String taskid, ModelMap mmap)
@@ -199,6 +212,7 @@ public class PurchaseController extends BaseController
     /**
      * 调整申请
      */
+    @ApiOperation("调整申请")
     @GetMapping("/updateapply")
     @ResponseBody
     public AjaxResult updateapply(String taskid, ModelMap mmap)
