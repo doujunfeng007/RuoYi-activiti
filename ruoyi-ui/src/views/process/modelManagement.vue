@@ -5,18 +5,18 @@
                 <el-col :span="2">
                     模型标志：
                 </el-col>
-                <el-col :span="4">
-                    <el-input></el-input>
+                <el-col :span="4" >
+                    <el-input v-model="searchParams.key"></el-input>
                 </el-col>
                 <el-col :span="2">
                     模型名称：
                 </el-col>
                 <el-col :span="4">
-                    <el-input></el-input>
+                    <el-input v-model="searchParams.name"></el-input>
                 </el-col>
                 <el-col :span="6">
-                    <el-button type="success">确定</el-button>
-                    <el-button type="warning">重置</el-button>
+                    <el-button type="success" @click="search">确定</el-button>
+                    <el-button type="warning" @click="reset">重置</el-button>
                 </el-col>
             </el-row>
         </div>
@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import {getModelLists, addModel} from "./api/model.js";
+import {getModelLists, addModel, publishModelById, deleteModelById} from "./api/model.js";
 import commonHelper from "@/utils/common.js"
 export default {
     name: "ModelManagement",
@@ -115,38 +115,68 @@ export default {
                 key: "",
                 name: "",
                 category: "",
-                description: ""
-            }
+                description: "",
+            },
+            searchParams: {
+                name: "",
+                key: "",
+                pageSize: 10,
+                pageNum: 1,
+                orderByColumn: "modelSort",
+                isAsc: "asc",
+            },
         };
     },
     created() {
-        console.log("dsad", this.$store.getters.token);
-        const formData = new FormData();
-        formData.set("pageSize", 10)
-        formData.set("pageNum", 1)
-        formData.set("orderByColumn", "modelSort")
-        formData.set("isAsc", "asc")
-        formData.set("key", "")
-        formData.set("name", "")
-        getModelLists(formData).then(res => {
-            console.log("值是多少?", res);
-            this.tableData = res && res.rows;
-        });
+        this.getModelByParams(this.searchParams);
     },
     methods: {
+        getModelByParams(params) {
+            getModelLists(params).then(res => {
+                this.tableData = res && res.rows;
+            });
+        },
         handleAddModel() {
             const formData = commonHelper.objectToFormData(this.form);
             addModel(formData).then(res => {
                 console.log(res);
                 this.showAddDialog = false;
+                this.getModelByParams(this.searchParams)
             });
         },
         handleDesign(index, row) {
-            window.open("/editor?modelId=" + row.id)
+            window.open("/dev-api/editor?modelId=" + row.id)
         },
-        handlePublish() {},
+        handlePublish(index, row) {
+            const id = row.id;
+            publishModelById(id).then(res => {
+                this.$message.success("部署成功!");
+            });
+        },
         handleExport() {},
-        handleDelete() {}
+        handleDelete(index, row) {
+
+            this.$confirm('确定删除该条模型信息吗？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                const id = row.id;
+                deleteModelById(id).then(res => {
+                    this.$message.success("删除成功!");
+                    this.getModelByParams(this.searchParams);
+                 });
+            });
+           
+        },
+        search() {
+            this.getModelByParams(this.searchParams);
+        },
+        reset() {
+            this.searchParams.name = "";
+            this.searchParams.key = "";
+            this.getModelByParams(this.searchParams);
+        },
     }
 };
 </script>

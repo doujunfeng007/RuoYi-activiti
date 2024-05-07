@@ -10,8 +10,11 @@
         </div>
        <div class="c-table-template__footer">
         <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
             background
             layout="prev, pager, next"
+            :page-sizes="[10, 25, 50]"
             :total="total">
         </el-pagination>
        </div>
@@ -33,6 +36,27 @@ export default {
         total: {
             type: Number,
             default: 0
+        }
+    },
+    data() {
+        return {
+            currentPageSize: 10
+        };
+    },
+    methods: {
+        handleSizeChange(pageSize) {
+            this.currentPageSize = pageSize;
+            this.$emit("page-change", {
+                pageNum: 1,
+                pageSize
+            })
+
+        },
+        handleCurrentChange(pageNum) {
+            this.$emit("page-change", {
+                pageNum,
+                pageSize: this.pageSize
+            })
         }
     }
 };

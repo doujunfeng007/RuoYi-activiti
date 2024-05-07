@@ -12,3 +12,16 @@ export const getProcesslists = (data) => {
       data: fd
     })
 }
+
+// 上传
+
+
+
+export const uploadProcess = (data) => {
+  const fd = commonUtil.objectToFormData(data);
+  return request({
+    url: 'flow/manage/uploadworkflow',
+    method: 'post',
+    data: fd
+  })
+}
