@@ -21,14 +21,12 @@
             </el-row>
         </div>
         <div class="c-model__content">
-            <div class="c-model__tool">
-                <el-button type="warning" @click="showAddDialog = true">新建模型</el-button>
-            </div>
-            <el-table
-            style="width: 100%;"
-            :data="tableData"
-                >
-                <el-table-column
+            <table-template :data="tableData">
+                <template #toolbar>
+                    <el-button type="warning" @click="showAddDialog = true">新建模型</el-button>
+                </template>
+                <template #columns>
+                    <el-table-column
                     prop="key"
                     label="模型标识"
                     width="180">
@@ -47,11 +45,13 @@
                     label="版本">
                 </el-table-column>
                 <el-table-column
+                    width="320"
                     prop="lastUpdateTime"
                     label="创建时间">
                 </el-table-column>
                 <el-table-column
                     prop="address"
+                    width="320"
                     label="操作">
                     <template slot-scope="scope">
                         <!--primary / success / warning / danger / info / text-->
@@ -60,6 +60,7 @@
                         type="warning"
                         @click="handleDesign(scope.$index, scope.row)">设计</el-button>
                         <el-button
+                        v-if="!scope.row.deploymentId"
                         size="mini"
                         type="primary"
                         @click="handlePublish(scope.$index, scope.row)">发布</el-button>
@@ -73,7 +74,8 @@
                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
-            </el-table>
+                </template>
+            </table-template>
         </div>
         <el-dialog
             title="新建模型"
@@ -105,11 +107,15 @@
 <script>
 import {getModelLists, addModel, publishModelById, deleteModelById} from "./api/model.js";
 import commonHelper from "@/utils/common.js"
+import TableTemplate from "@/components/TableTemplate";
 export default {
     name: "ModelManagement",
+    components: {
+        TableTemplate
+    },
     data() {
         return {
-            tableData: [],
+            responseData: {},
             showAddDialog: false,
             form: {
                 key: "",
@@ -127,13 +133,21 @@ export default {
             },
         };
     },
+    computed: {
+        tableData() {
+            return this.responseData.rows || []
+        },
+        total() {
+            return this.responseData.total || 0
+        }
+    },
     created() {
         this.getModelByParams(this.searchParams);
     },
     methods: {
         getModelByParams(params) {
             getModelLists(params).then(res => {
-                this.tableData = res && res.rows;
+                this.responseData = res;
             });
         },
         handleAddModel() {
@@ -142,10 +156,15 @@ export default {
                 console.log(res);
                 this.showAddDialog = false;
                 this.getModelByParams(this.searchParams)
+                this.$message.success("添加成功!");
+                ["key", "name", "category", "description"].forEach(key => {
+                    this.form[key] = "";
+                });
             });
         },
         handleDesign(index, row) {
-            window.open("/dev-api/editor?modelId=" + row.id)
+            const path = "/editor?modelId=" + row.id;
+            commonHelper.openWindow(path);
         },
         handlePublish(index, row) {
             const id = row.id;
@@ -153,7 +172,13 @@ export default {
                 this.$message.success("部署成功!");
             });
         },
-        handleExport() {},
+        handleExport(index, row) {
+            const {key ,id} = row;
+            const a = document.createElement("a");
+            a.href="/model/manage/export/" + id
+            a.download = key + ".bpmn.xml";
+            a.click();
+        },
         handleDelete(index, row) {
 
             this.$confirm('确定删除该条模型信息吗？', {
@@ -175,6 +200,11 @@ export default {
         reset() {
             this.searchParams.name = "";
             this.searchParams.key = "";
+            this.getModelByParams(this.searchParams);
+        },
+        handlePageChange({pageNum, pageSize}) {
+            this.searchParams.pageNum = pageNum;
+            this.searchParams.pageSize = pageSize;
             this.getModelByParams(this.searchParams);
         },
     }

@@ -14,14 +14,32 @@ export const getProcesslists = (data) => {
 }
 
 // 上传
-
-
-
 export const uploadProcess = (data) => {
   const fd = commonUtil.objectToFormData(data);
   return request({
-    url: 'flow/manage/uploadworkflow',
+    url: '/flow/manage/uploadworkflow',
     method: 'post',
     data: fd
   })
+}
+
+// 转换模型
+export const exchangeById = id => {
+  return request({
+    url: `/flow/manage/exchangeProcessToModel/${id}`,
+    method: 'get'
+  });
+}
+
+// 删除流程信息
+
+export const deleteProcessByDeployId = deployId => {
+  const data = {
+    ids: deployId
+  };
+  return request({
+    url: `/flow/manage/remove/${deployId}`,
+    method: 'post',
+    data: commonUtil.objectToFormData(data)
+  });
 }

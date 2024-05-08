@@ -14,8 +14,26 @@ function objectToQueryStr(obj) {
     console.log(queryStr);
     return queryStr.slice(1);
 }
+function openWindow(path, prefix) {
+    if (prefix) {
+        window.open(prefix + "" + url);
+    } else {
+        const location  = window.location;
+        const origin = location.origin;
+        if (origin.indexOf("localhost") > -1) {
+            return window.open(`http://localhost:8080${path}`)
+        }
+        const pathPrefix = origin + (
+            location.port
+            ? ""
+            : ":8080"
+        );
+        window.open(pathPrefix + "" + path)
+    }
+}
 
 export default {
     objectToFormData,
-    objectToQueryStr
+    objectToQueryStr,
+    openWindow
 };

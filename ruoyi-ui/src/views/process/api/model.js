@@ -6,7 +6,7 @@ import commonUtil from "@/utils/common"
 // 获取模型数据
 export const getModelLists = (data) => {
     return request({
-      url: '/model/manage/modelLists?pageNum=1&pageSize=10',
+      url: '/model/manage/modelLists',
       method: 'post',
       data: commonUtil.objectToFormData(data)
     })

@@ -50,6 +50,47 @@
                     prop="version"
                     label="版本号">
                 </el-table-column>
+                <el-table-column
+                    prop="version"
+                    width="200"
+                    label="详情">
+                    <template slot-scope="scope">
+                        <el-button
+                        size="mini"
+                        type="warning"
+                        @click="handleDefinition(scope.$index, scope.row)">查看定义</el-button>
+                        <el-button
+                        size="mini"
+                        type="primary"
+                        @click="handleProcess(scope.$index, scope.row)">流程图</el-button>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    prop="version"
+                    label="操作"
+                    width="320"
+                >
+                    <template slot-scope="scope">
+                        <el-button
+                        v-if="scope.row.suspended"
+                        size="mini"
+                        type="success"
+                        @click="handleDesign(scope.$index, scope.row)">激活</el-button>
+                        <el-button
+                        v-if="!scope.row.suspended"
+                        size="mini"
+                        type="primary"
+                        @click="handleDesign(scope.$index, scope.row)">挂起</el-button>
+                        <el-button
+                        size="mini"
+                        type="success"
+                        @click="handleExchange(scope.$index, scope.row)">转为模型</el-button>
+                        <el-button
+                        size="mini"
+                        type="danger"
+                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
             </template>
         </table-template>
         <el-dialog
@@ -76,7 +117,8 @@
 
 <script>
 import TableTemplate from "@/components/TableTemplate";
-import {getProcesslists} from "./api/deployService";
+import {getProcesslists, exchangeById, deleteProcessByDeployId} from "./api/deployService";
+import commonHelper from "@/utils/common.js"
 
 export default {
     name: "deployManagement",
@@ -95,7 +137,8 @@ export default {
                 pageNum: 1,
                 pageSize: 10
             },
-            showAddDialog: false
+            showAddDialog: false,
+            fileList: []
         };
     },
     computed: {
@@ -134,6 +177,35 @@ export default {
             getProcesslists(this.searchParams).then(res => {
                 console.log("拿到processList", res);
                 this.responseData = res;
+            });
+        },
+        handleDefinition(index, row) {
+            const {deploymentId, key} = row;
+            const path = `/flow/manage/showProcessDefinition/${deploymentId}/${key}.bpmn20.xml`
+            commonHelper.openWindow(path);
+        },
+        handleProcess(index, row) {
+            const {id} = row;
+            const path = `/flow/manage/showresource?pdid=${id}`;
+            commonHelper.openWindow(path);
+        },
+        handleExchange(index, row) {
+            const {id} = row;
+            exchangeById(id).then(res => {
+                this.$message.success("转化成功!")
+            });
+        },
+        handleDelete(index, row) {
+            this.$confirm('确定删除该条流程信息吗？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                const {deploymentId} = row;
+                deleteProcessByDeployId(deploymentId).then(res => {
+                    this.$message.success("删除成功!");
+                    this.getProcesslists(this.searchParams);
+                 });
             });
         }
     },
