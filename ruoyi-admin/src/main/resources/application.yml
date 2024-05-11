@@ -65,6 +65,10 @@ spring:
       max-file-size: 10MB
       # 设置总上传的文件大小
       max-request-size: 20MB
+  # 模板引擎
+  thymeleaf:
+    mode: HTML
+    encoding: utf-8
   # 服务模块
   devtools:
     restart:
