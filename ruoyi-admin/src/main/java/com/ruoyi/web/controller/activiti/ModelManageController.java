@@ -69,10 +69,11 @@ public class ModelManageController extends BaseController {
         }
         int start = (pageNum - 1) * pageSize;
         List<Model> page = query.orderByCreateTime().desc().listPage(start, pageSize);
+        int total = repositoryService.createModelQuery().list().size();
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(0);
         rspData.setRows(page);
-        rspData.setTotal(query.list().size());
+        rspData.setTotal(total);
         return rspData;
     }
 
