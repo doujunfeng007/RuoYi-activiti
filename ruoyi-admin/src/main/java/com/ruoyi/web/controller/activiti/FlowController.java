@@ -133,9 +133,11 @@ public class FlowController extends BaseController {
     @RequestMapping(value = "/showresource", method = RequestMethod.GET)
     public void showresource(@RequestParam("pdid") String pdid,
                        HttpServletResponse response) throws Exception {
+        response.setContentType("application/x-png");
+        response.setHeader("Content-Disposition","attachment;filename=process.jpg");
         BpmnModel bpmnModel = repositoryService.getBpmnModel(pdid);
         ProcessDiagramGenerator diagramGenerator = configuration.getProcessDiagramGenerator();
-        InputStream is = diagramGenerator.generateDiagram(bpmnModel, "png",  "宋体", "宋体", "宋体", configuration.getClassLoader(), 1.0);
+        InputStream is = diagramGenerator.generateDiagram(bpmnModel, "jpg",  "宋体", "宋体", "宋体", configuration.getClassLoader(), 1.0);
         ServletOutputStream output = response.getOutputStream();
         IOUtils.copy(is, output);
     }
@@ -144,6 +146,8 @@ public class FlowController extends BaseController {
     @RequestMapping(value = "/showProcessDefinition/{pdid}/{resource}", method = RequestMethod.GET)
     public void showProcessDefinition(@PathVariable("pdid") String pdid, @PathVariable(value="resource") String resource,
                        HttpServletResponse response) throws Exception {
+        response.setContentType("application/xml");
+        response.setHeader("Content-Disposition","attachment;filename=process.bpmn20.xml");
         InputStream is = repositoryService.getResourceAsStream(pdid, resource);
         ServletOutputStream output = response.getOutputStream();
         IOUtils.copy(is, output);
