@@ -1,10 +1,40 @@
 <template>
     <div>
-        <table-template :data="tableData" :total="total">
+        <div class="search-bar">
+            <div>
+                <label>请假类型:</label>
+                <el-select v-model="searchParams.leaveType">
+                    <el-option label="所有" value="" :key="99"></el-option>
+                    <el-option v-for="(leaveType, i) in leaveTypeList" :label="leaveType" :value="leaveType" :key="i"></el-option>
+                </el-select>
+            </div>
+            <div>
+                <label>申请时间:</label>
+                <el-date-picker
+                    v-model="searchParams.range"
+                    value-format="yyyy-MM-dd"
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+                </el-date-picker>
+            </div>
+            <div>
+                <el-button type="success" @click="search">搜索</el-button>
+                <el-button type="warning" @click="reset">重置</el-button>
+            </div>
+        </div>
+        <table-template
+            :data="tableData"
+            :total="total"
+            selection
+            @selection-change="handleSelectionChange"
+            @page-change="handlePageChange"
+        >
             <template #toolbar>
                 <el-button type="primary" @click="dialogVisible = true">添加</el-button>
-                <el-button type="danger">删除</el-button>
-                <el-button type="warning">导出</el-button>
+                <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleMultipleDelete">删除</el-button>
+                <el-button type="warning" @click="handleExport">导出</el-button>
             </template>
             <template #columns>
                 <el-table-column
@@ -35,6 +65,16 @@
                     prop="endTime"
                     label="实际结束时间">
                 </el-table-column>
+                <el-table-column
+                    prop="operation"
+                    label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                        size="mini"
+                        type="danger"
+                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
             </template>
         </table-template>
         <el-dialog :visible.sync="dialogVisible">
@@ -44,11 +84,7 @@
                 </el-form-item>
                 <el-form-item label="类型">
                     <el-select v-model="form.leaveType">
-                        <el-option label="事假" value="事假"></el-option>
-                        <el-option label="病假" value="事假"></el-option>
-                        <el-option label="年假" value="事假"></el-option>
-                        <el-option label="丧假" value="事假"></el-option>
-                        <el-option label="产假" value="事假"></el-option>
+                        <el-option v-for="(leaveType, i) in leaveTypeList" :label="leaveType" :value="leaveType" :key="i"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="起始时间">
@@ -83,7 +119,7 @@
 // reason: 123
 // deptleader: admin
 import TableTemplate from "@/components/TableTemplate";
-import {getLeaveApplyList, addLeave} from "./api/leaveApply";
+import {getLeaveApplyList, addLeave, deleteLeave, exportLeave} from "./api/leaveApply";
 
 export default {
     name: "leaveApply",
@@ -93,6 +129,13 @@ export default {
     data() {
         return {
             responseData: {},
+            searchParams: {
+                leaveType: "",
+                searchParams: [],
+                pageNum: 1,
+                pageSize: 10
+            },
+            leaveTypeList: [" 事假", "病假", "年假", "丧假", "年假"],
             dialogVisible: false,
             form: {
                 userId: this.$store.state.user.name,
@@ -101,7 +144,8 @@ export default {
                 endTime: "",
                 reason: "",
                 deptleader: "admin"
-            }
+            },
+            currentSelection: []
         };
     },
     computed: {
@@ -110,28 +154,104 @@ export default {
         },
         total() {
             return this.responseData.total || 0
-        }
+        },
+        selectionIds() {
+            return this.currentSelection.map(item => item.id)
+        },
     },
     mounted() {
-        console.log("aaaaaaaaaaaaaaaaaaaaaaa", getLeaveApplyList);
-        console.log(this.$store.state)
-        getLeaveApplyList({
-            pageSize: 10,
-            pageNum: 1,
-            isAsc: "asc",
-            leaveType: "",
-            // "params[beginApplyTime]": "",
-            // "params[endApplyTime]": ""
-        }).then(res => {
-            this.responseData = res;
-        });
+        this.getLeaveApplyListAndRender(this.searchParams)
     },
     methods: {
+        handleMultipleDelete() {
+            this.$confirm(`确定删除选中的${this.currentSelection.length}条数据吗？`, {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                const ids = this.selectionIds.join(",");
+                this.deleteByIdsAndRender(ids);
+            });
+           
+        },
+        handleExport() {
+            this.$confirm('确定导出所有数据吗？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                const {leaveType, range} = this.searchParams;
+                const params = {
+                    leaveType,
+                    "params[beginApplyTime]": (range && range[0]) || "",
+                    "params[endApplyTime]": (range && range[1]) || "",
+                    isAsc: "asc"
+                };
+                exportLeave(params)
+            });
+        },
+        handleSelectionChange(selection) {
+            this.currentSelection = selection;
+        },
+        getLeaveApplyListAndRender(params) {
+            const {leaveType, range, pageSize = 10, pageNum = 1} = params;
+            getLeaveApplyList({
+                pageSize,
+                pageNum,
+                isAsc: "asc",
+                leaveType,
+                "params[beginApplyTime]": (range && range[0]) || "",
+                "params[endApplyTime]": (range && range[1]) || ""
+            }).then(res => {
+                this.responseData = res;
+            });
+        },
         handleAddLeave() {
             addLeave(this.form).then(res => {
                 this.$message.success("添加成功!");
+                this.dialogVisible = false;
+                this.getLeaveApplyListAndRender(this.searchParams);
             });
+        },
+        search() {
+            this.getLeaveApplyListAndRender(this.searchParams);
+        },
+        reset() {
+            this.searchParams.leaveType = "";
+            this.searchParams.range = [];
+            this.getLeaveApplyListAndRender(this.searchParams);
+        },
+        handleDelete(index, row) {
+            this.$confirm('确定删除吗？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                const {id} = row;
+                this.deleteByIdsAndRender(id)
+            });
+        },
+        deleteByIdsAndRender(ids) {
+            deleteLeave({
+                ids
+            }).then(() => {
+                this.$message("删除成功!")
+                this.getLeaveApplyListAndRender(this.searchParams);
+            })
+        },
+        handlePageChange({pageNum, pageSize}) {
+            this.searchParams.pageNum = pageNum;
+            this.searchParams.pageSize = pageSize;
+            this.getLeaveApplyListAndRender(this.searchParams);
         },
     }
 };
 </script>
+
+<style scoped>
+.search-bar {
+    display: flex;
+    margin-top: 8px;
+    margin-left: 8px;
+}
+</style>

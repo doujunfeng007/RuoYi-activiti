@@ -27,3 +27,24 @@ export const addLeave = data => {
         data: fd
     });
 }
+// 导出
+export const exportLeave = data => {
+    const fd = commonUtil.objectToQueryStr(data)
+    return request({
+        url: '/leaveapply/export',
+        method: 'post',
+        data: fd,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+    });
+}
+// 删除
+export const deleteLeave = data => {
+    const fd = commonUtil.objectToFormData(data)
+    return request({
+        url: '/leaveapply/remove',
+        method: 'post',
+        data: fd
+    });
+}
