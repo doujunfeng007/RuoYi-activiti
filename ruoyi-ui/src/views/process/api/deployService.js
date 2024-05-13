@@ -38,8 +38,26 @@ export const deleteProcessByDeployId = deployId => {
     ids: deployId
   };
   return request({
-    url: `/flow/manage/remove/${deployId}`,
+    url: `/leaveapply/remove`,
     method: 'post',
     data: commonUtil.objectToFormData(data)
+  });
+}
+
+// 挂起流程
+export const suspendProcess = params => {
+  return request({
+    url: `/flow/manage/suspendProcessDefinition`,
+    method: 'get',
+    params
+  });
+}
+
+// 激活
+export const activateProcess = params => {
+  return request({
+    url: `/flow/manage/activateProcessDefinition`,
+    method: 'get',
+    params
   });
 }

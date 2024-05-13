@@ -4,7 +4,12 @@
             <slot name="toolbar"></slot>
         </div>
         <div class="c-table-template__content">
-            <el-table :data="data">
+            <el-table :data="data" @selection-change="handleSelectionChange" height="530">
+                <el-table-column
+                    v-if="selection"
+                    type="selection"
+                    width="55">
+                </el-table-column>
                 <slot name="columns"></slot>
             </el-table>
         </div>
@@ -13,7 +18,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             background
-            layout="prev, pager, next"
+            layout="total, sizes, prev, pager, next"
             :page-sizes="[10, 25, 50]"
             :total="total">
         </el-pagination>
@@ -36,6 +41,10 @@ export default {
         total: {
             type: Number,
             default: 0
+        },
+        selection: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -57,6 +66,9 @@ export default {
                 pageNum,
                 pageSize: this.pageSize
             })
+        },
+        handleSelectionChange(selection) {
+            this.$emit("selection-change", selection)
         }
     }
 };

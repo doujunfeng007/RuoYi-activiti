@@ -75,12 +75,12 @@
                         v-if="scope.row.suspended"
                         size="mini"
                         type="success"
-                        @click="handleDesign(scope.$index, scope.row)">激活</el-button>
+                        @click="handleActive(scope.$index, scope.row)">激活</el-button>
                         <el-button
                         v-if="!scope.row.suspended"
                         size="mini"
                         type="primary"
-                        @click="handleDesign(scope.$index, scope.row)">挂起</el-button>
+                        @click="handleHangOff(scope.$index, scope.row)">挂起</el-button>
                         <el-button
                         size="mini"
                         type="success"
@@ -98,18 +98,40 @@
             :visible.sync="showAddDialog"
             width="30%"
         >
-            <el-upload
-                class="upload-demo"
-                action="/dev-api/flow/manage/uploadworkflow"
-                name="uploadfile"
-                :file-list="fileList"
-            >
-                <el-button size="small" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">提示：仅允许导入“bpmn”、“xml”或“zip”格式文件！</div>
-            </el-upload>
+            <input id="deployFile" type="file" />
+            <div>提示：仅允许导入“bpmn”、“xml”或“zip”格式文件！</div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="showAddDialog = false">取 消</el-button>
-                <el-button type="primary" @click="showAddDialog = false">确 定</el-button>
+                <el-button type="primary" @click="handleUpload">确 定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog
+             :title="`${type === 'hang' ? '挂起' : '激活'}流程定义`"
+            :visible.sync="showHangOffDialog"
+            width="30%"
+        >
+            <el-switch
+                v-model="suspend.value1"
+                :active-text="`${type === 'hang' ? '挂起' : '激活'}关联流程实例`"
+            >
+            </el-switch>
+            <br/>
+            <el-switch
+                v-model="suspend.value2"
+                :active-text="`定时${type === 'hang' ? '挂起' : '激活'}`"
+            >
+            </el-switch>
+            <br/>
+            <el-date-picker
+                :disabled="!suspend.value2"
+                v-model="suspend.date"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                type="datetime"
+                :placeholder="`选择${type === 'hang' ? '挂起' : '激活'}时间`">
+            </el-date-picker>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="showHangOffDialog = false">取 消</el-button>
+                <el-button type="primary" @click="handleSuspendRequest">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -117,7 +139,7 @@
 
 <script>
 import TableTemplate from "@/components/TableTemplate";
-import {getProcesslists, exchangeById, deleteProcessByDeployId} from "./api/deployService";
+import {getProcesslists, exchangeById, deleteProcessByDeployId, uploadProcess, suspendProcess, activateProcess} from "./api/deployService";
 import commonHelper from "@/utils/common.js"
 
 export default {
@@ -138,7 +160,14 @@ export default {
                 pageSize: 10
             },
             showAddDialog: false,
-            fileList: []
+            showHangOffDialog: false,
+            suspend: {
+                value1: true,
+                value2: false,
+                date: ""
+            },
+            currentRow: null,
+            type: ""
         };
     },
     computed: {
@@ -165,23 +194,17 @@ export default {
             });
         },
         search() {
-            getProcesslists(this.searchParams).then(res => {
-                console.log("拿到processList", res);
-                this.responseData = res;
-            });
+            this.getListAndRenderByParams(this.searchParams)
         },
         reset() {
             this.searchParams.key = "";
             this.searchParams.name = "";
             this.searchParams.latest = "true";
-            getProcesslists(this.searchParams).then(res => {
-                console.log("拿到processList", res);
-                this.responseData = res;
-            });
+            this.getListAndRenderByParams(this.searchParams)
         },
         handleDefinition(index, row) {
-            const {deploymentId, key} = row;
-            const path = `/flow/manage/showProcessDefinition/${deploymentId}/${key}.bpmn20.xml`
+            const {deploymentId, resourceName} = row;
+            const path = `/flow/manage/showProcessDefinition/${deploymentId}/${resourceName}`
             commonHelper.openWindow(path);
         },
         handleProcess(index, row) {
@@ -195,6 +218,35 @@ export default {
                 this.$message.success("转化成功!")
             });
         },
+        handleHangOff(index, row) {
+            this.showHangOffDialog = true;
+            this.type = "hang";
+            this.currentRow = row;
+        },
+        handleActive(index, row) {
+            this.showHangOffDialog = true;
+            this.type = "active";
+            this.currentRow = row;
+        },
+        handleSuspendRequest() {
+            const {id} = this.currentRow;
+            const params = {
+                flag: true,
+                pdid: id,
+            };
+            if (this.suspend.date) {
+                params.date = this.suspend.date;
+            }
+            this.type === "hang" && suspendProcess(params).then(() => {
+                this.$message.success("挂起成功!");
+                this.showHangOffDialog = false;
+            });
+
+            this.type === "active" && activateProcess(params).then(() => {
+                this.$message.success("激活成功!");
+                this.showHangOffDialog = false;
+            });
+        },
         handleDelete(index, row) {
             this.$confirm('确定删除该条流程信息吗？', {
                 confirmButtonText: '确定',
@@ -204,15 +256,26 @@ export default {
                 const {deploymentId} = row;
                 deleteProcessByDeployId(deploymentId).then(res => {
                     this.$message.success("删除成功!");
-                    this.getProcesslists(this.searchParams);
+                    this.getListAndRenderByParams(this.searchParams)
                  });
             });
-        }
+        },
+        handleUpload() {
+            const deploy = document.querySelector("#deployFile");
+            const uploadfile = deploy.files[0];
+            uploadProcess({
+                uploadfile
+            }).then(() => {
+                this.showAddDialog = false;
+                console.log("file-name");
+                this.getListAndRenderByParams(this.searchParams)
+            });
+        },
     },
 };
 </script>
 
-<style scoped>
+<style>
 .search-bar {
     display: flex;
     margin-top: 8px;
@@ -222,5 +285,8 @@ export default {
     display: inline-block;
     width: 300px;
     margin-right: 10px;
+}
+.el-switch {
+    margin-bottom: 16px;
 }
 </style>

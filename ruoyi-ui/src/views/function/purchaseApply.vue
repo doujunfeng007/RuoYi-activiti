@@ -1,10 +1,37 @@
 <template>
     <div>
-        <table-template :data="tableData" :total="total">
+        <div class="search-bar">
+            <div>
+                <label>申请时间:</label>
+                <el-date-picker
+                    v-model="searchParams.range"
+                    value-format="yyyy-MM-dd"
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+                </el-date-picker>
+            </div>
+            <div>
+                <label>申请人:</label>
+                <el-input type="text" v-model="searchParams.applier" />
+            </div>
+            <div>
+                <el-button type="success" @click="search">搜索</el-button>
+                <el-button type="warning" @click="reset">重置</el-button>
+            </div>
+        </div>
+        <table-template
+            :data="tableData"
+            :total="total"
+            selection
+            @selection-change="handleSelectionChange"
+            @page-change="handlePageChange"
+        >
             <template #toolbar>
                 <el-button type="primary" @click="dialogVisible = true">添加</el-button>
-                <el-button type="danger">删除</el-button>
-                <el-button type="warning">导出</el-button>
+                <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleMultipleDelete">删除</el-button>
+                <el-button type="warning" @click="handleExport">导出</el-button>
             </template>
             <template #columns>
                 <el-table-column
@@ -22,6 +49,16 @@
                 <el-table-column
                     prop="applyer"
                     label="申请人">
+                </el-table-column>
+                <el-table-column
+                    prop="operation"
+                    label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                        size="mini"
+                        type="danger"
+                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    </template>
                 </el-table-column>
             </template>
         </table-template>
@@ -67,7 +104,7 @@
 
 <script>
 import TableTemplate from "@/components/TableTemplate";
-import {getPurchaseApplyList, addPurchase} from "./api/purchase.js";
+import {getPurchaseApplyList, addPurchase, deletePurchase, exportPurchase} from "./api/purchase.js";
 
 // itemlist: 笔
 // total: 100
@@ -93,7 +130,14 @@ export default {
                 finance: "admin",
                 pay: "admin",
                 manager: "admin",
-            }
+            },
+            searchParams: {
+                range: [],
+                applier: "",
+                pageSize: 10,
+                pageNum: 1
+            },
+            currentSelection: [],
         };
     },
     computed: {
@@ -102,24 +146,110 @@ export default {
         },
         total() {
             return this.responseData.total || 0
-        }
+        },
+        selectionIds() {
+            return this.currentSelection.map(item => item.id)
+        },
     },
     mounted() {
-        getPurchaseApplyList({
-            pageSize: 10,
-            pageNum: 1,
-            isAsc: "asc",
-            leaveType: "",
-        }).then(res => {
-            this.responseData = res;
-        });
+        this.getPurchaseApplyListAndRender(this.searchParams)
     },
     methods: {
+        handleSelectionChange(selection) {
+            console.log(selection);
+            this.currentSelection = selection;
+        },
+        getPurchaseApplyListAndRender(params) {
+            const {range = [], pageSize = 10, pageNum = 1, applier = ""} = params;
+            getPurchaseApplyList({
+                pageSize,
+                pageNum,
+                isAsc: "asc",
+                "params[beginApplyTime]": (range && range[0]) || "",
+                "params[endApplyTime]": (range && range[1]) || "",
+                applyer: applier
+            }).then(res => {
+                this.responseData = res;
+            });
+        },
         handleAdd() {
             addPurchase(this.form).then(res => {
                 this.$message.success("添加成功!");
+                this.dialogVisible = false;
+                this.getPurchaseApplyListAndRender(this.searchParams);
             });
         },
+        search() {
+            this.getPurchaseApplyListAndRender(this.searchParams);
+        },
+        reset() {
+            this.searchParams.applier = "";
+            this.searchParams.range = [];
+            this.getPurchaseApplyListAndRender(this.searchParams);
+        },
+        handleDelete(index, row) {
+            this.$confirm('确定删除吗？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                const {id} = row;
+                this.deleteByIdsAndRender(id)
+            });
+        },
+        handleMultipleDelete() {
+            this.$confirm(`确定删除选中的${this.currentSelection.length}条数据吗？`, {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                const ids = this.selectionIds.join(",");
+                this.deleteByIdsAndRender(ids)
+            });
+        },
+        handleExport() {
+            this.$confirm('确定导出所有数据吗？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                const {applier, range} = this.searchParams;
+                const params = {
+                    applyer: applier,
+                    "params[beginApplyTime]": (range && range[0]) || "",
+                    "params[endApplyTime]": (range && range[1]) || "",
+                    isAsc: "asc"
+                };
+                exportPurchase(params)
+            });
+        },
+        deleteByIdsAndRender(ids) {
+            deletePurchase({
+                ids
+            }).then(() => {
+                this.$message("删除成功!")
+                this.getPurchaseApplyListAndRender(this.searchParams);
+            })
+        },
+        handlePageChange({pageNum, pageSize}) {
+            console.log(pageNum, pageSize);
+            this.searchParams.pageNum = pageNum;
+            this.searchParams.pageSize = pageSize;
+            this.getPurchaseApplyListAndRender(this.searchParams);
+        }
     }
 };
 </script>
+
+<style scoped>
+.search-bar {
+    display: flex;
+    margin-top: 8px;
+    margin-left: 8px;
+}
+.el-input {
+    display: inline-block;
+    width: 300px;
+    margin-right: 10px;
+}
+</style>
