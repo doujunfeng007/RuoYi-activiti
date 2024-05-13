@@ -191,7 +191,7 @@ public class FlowController extends BaseController {
     @RequestMapping(value = "/suspendProcessDefinition", method = RequestMethod.GET)
     @ResponseBody
     public AjaxResult suspendProcessDefinition(@RequestParam("pdid") String pdid, @RequestParam("flag") Boolean flag,
-                                               @RequestParam(value="date") String date) throws Exception {
+                                               @RequestParam(value="date", required = false) String date) throws Exception {
         if (StringUtils.isNotEmpty(date)) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             repositoryService.suspendProcessDefinitionById(pdid, flag,  sdf.parse(date));
