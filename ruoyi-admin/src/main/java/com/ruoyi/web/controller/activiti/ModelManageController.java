@@ -80,6 +80,7 @@ public class ModelManageController extends BaseController {
     /**
      * 新增模型
      */
+    @ApiOperation("新建模型")
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(ModelParam modelRequest) throws JsonProcessingException {
@@ -116,6 +117,7 @@ public class ModelManageController extends BaseController {
         }
     }
 
+    @ApiOperation("发布模型")
     @RequestMapping("/deploy/{modelId}")
     @ResponseBody
     public AjaxResult modelDeployment(@PathVariable String modelId) {
@@ -137,6 +139,7 @@ public class ModelManageController extends BaseController {
         }
     }
 
+    @ApiOperation("删除模型")
     @PostMapping("/remove/{modelId}")
     @ResponseBody
     public AjaxResult removeModel(@PathVariable String modelId) {
@@ -144,6 +147,7 @@ public class ModelManageController extends BaseController {
         return AjaxResult.success("删除成功");
     }
 
+    @ApiOperation("导出模型")
     @GetMapping("/export/{modelId}")
     public void modelExport(@PathVariable String modelId, HttpServletResponse response) throws IOException {
         byte[] modelData = repositoryService.getModelEditorSource(modelId);
@@ -151,11 +155,11 @@ public class ModelManageController extends BaseController {
         BpmnModel bpmnModel = (new BpmnJsonConverter()).convertToBpmnModel(jsonNode);
         byte[] xmlBytes = (new BpmnXMLConverter()).convertToXML(bpmnModel, "UTF-8");
         ByteArrayInputStream in = new ByteArrayInputStream(xmlBytes);
-        IOUtils.copy(in, response.getOutputStream());
         String filename = bpmnModel.getMainProcess().getId() + ".bpmn20.xml";
         response.setHeader("Content-Disposition","attachment;filename=" + filename);
         response.setHeader("content-Type", "application/xml");
         response.flushBuffer();
+        IOUtils.copy(in, response.getOutputStream());
     }
 
 
