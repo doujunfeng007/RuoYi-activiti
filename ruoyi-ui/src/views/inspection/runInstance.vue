@@ -1,5 +1,15 @@
 <template>
     <div>
+        <div class="search-bar">
+            <div>
+                <label>流程名称:</label>
+                <el-input type="text" v-model="searchParams.name" />
+            </div>
+            <div>
+                <el-button type="success" @click="search">搜索</el-button>
+                <el-button type="warning" @click="reset">重置</el-button>
+            </div>
+        </div>
         <table-template :data="tableData" :total="total">
             <template #columns>
                 <el-table-column
@@ -46,7 +56,13 @@ export default {
     },
     data() {
         return {
-            tableData: []
+            tableData: [],
+            searchParams: {
+                name: "",
+                bussinesskey: "",
+                pageSize: 10,
+                pageNum: 1
+            }
         };
     },
     mounted() {
@@ -70,3 +86,16 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.search-bar {
+    display: flex;
+    margin-top: 8px;
+    margin-left: 8px;
+}
+.el-input {
+    display: inline-block;
+    width: 300px;
+    margin-right: 10px;
+}
+</style>

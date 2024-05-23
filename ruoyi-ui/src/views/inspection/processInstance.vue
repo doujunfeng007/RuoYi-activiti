@@ -52,6 +52,26 @@
                     prop="startUserId"
                     label="发起人">
                 </el-table-column>
+                <el-table-column
+                    prop="operation"
+                    label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                        size="mini"
+                        type="danger"
+                        @click="showProcess(scope.$index, scope.row)">流程进度</el-button>
+                        <el-button
+                        v-if="!scope.row.suspended"
+                        size="mini"
+                        type="primary"
+                        @click="handleEnable(false, scope.row)">挂起</el-button>
+                        <el-button
+                        v-else
+                        size="mini"
+                        type="success"
+                        @click="handleEnable(true, scope.row)">唤醒</el-button>
+                    </template>
+                </el-table-column>
             </template>
         </table-template>
     </div>
@@ -59,7 +79,8 @@
 
 <script>
 import TableTemplate from "@/components/TableTemplate";
-import {getListProcess} from "./api";
+import {getListProcess, enableProcess} from "./api";
+import commonHelper from "@/utils/common.js"
 
 export default {
     name: "ProcessInstance",
@@ -114,6 +135,18 @@ export default {
             this.searchParams.pageNum = pageNum;
             this.searchParams.pageSize = pageSize;
             this.getListProcessByParamsAndRender(this.searchParams);
+        },
+        handleEnable(enable, row) {
+            const {processInstanceId} = row;
+            enableProcess(processInstanceId, enable).then(res => {
+                this.$message.success("操作成功！")
+                this.getListProcessByParamsAndRender(this.searchParams);
+            });
+        },
+        showProcess(index, row) {
+            const {processInstanceId} = row;
+            const url = `/flow/monitor/traceProcess/${processInstanceId}`;
+            commonHelper.openWindow(url);
         }
     }
 };
