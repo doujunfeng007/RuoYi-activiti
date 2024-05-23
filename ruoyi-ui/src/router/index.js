@@ -87,6 +87,19 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  {
+    path: '/process',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: ':taskType/:step/:taskId',
+        component: () => import('@/views/todo/processTask'),
+        name: 'process',
+        meta: { title: '处理待办' }
+      }
+    ]
   }
 ]
 
