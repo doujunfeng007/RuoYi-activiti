@@ -6,9 +6,12 @@ function objectToFormData(obj) {
     });
     return fd;
 }
-function objectToQueryStr(obj) {
+function objectToQueryStr(obj, filterNull = false) {
     let queryStr = "";
     Object.keys(obj).forEach(key => {
+        if (filterNull && !obj[key]) {
+           return;
+        }
         queryStr += `&${key}=${obj[key] || ''}`
     });
     console.log(queryStr);

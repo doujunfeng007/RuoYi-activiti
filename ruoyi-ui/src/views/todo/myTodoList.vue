@@ -43,6 +43,16 @@
                     prop="startTime"
                     label="流程启动时间">
                 </el-table-column>
+                <el-table-column
+                    prop="operation"
+                    label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                        size="mini"
+                        type="danger"
+                        @click="handleTodo(scope.$index, scope.row)">办理</el-button>
+                    </template>
+                </el-table-column>
             </template>
         </table-template>
     </div>
@@ -50,7 +60,7 @@
 
 <script>
 import TableTemplate from "@/components/TableTemplate";
-import {getMyTodoList} from "./api/myTodoList";
+import {getMyTodoList, getProcessByTaskid} from "./api/myTodoList";
 
 export default {
     name: "myTodoList",
@@ -80,6 +90,17 @@ export default {
         }).then(res => {
             this.responseData = res;
         });
+    },
+    methods: {
+        handleTodo(index, row) {
+            console.log("todo", row);
+            const {formKey, taskId, businessKey} = row;
+            this.$router.push({
+                path: `/process/${formKey}/${taskId}?id=${businessKey}`,
+                meta: { title: "测试" },
+                params: {row}
+            })
+        }
     },
 };
 </script>
