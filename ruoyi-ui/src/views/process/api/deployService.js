@@ -38,7 +38,7 @@ export const deleteProcessByDeployId = deployId => {
     ids: deployId
   };
   return request({
-    url: `/leaveapply/remove`,
+    url: `/flow/manage/remove/${deployId}`,
     method: 'post',
     data: commonUtil.objectToFormData(data)
   });
