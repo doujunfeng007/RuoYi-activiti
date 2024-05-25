@@ -10,7 +10,7 @@
                 <el-button type="warning" @click="reset">重置</el-button>
             </div>
         </div>
-        <table-template :data="tableData" :total="total">
+        <table-template :data="tableData" :total="total" row-key="executionId">
             <template #columns>
                 <el-table-column
                     prop="executionId"
@@ -48,6 +48,7 @@
 <script>
 import TableTemplate from "@/components/TableTemplate";
 import {getListExecutions} from "./api";
+import commonUtil from "@/utils/common"
 
 export default {
     name: "RunInstance",
@@ -75,13 +76,19 @@ export default {
             // "params[beginApplyTime]": "",
             // "params[endApplyTime]": ""
         }).then(res => {
-            this.tableData = res.map(item => {
+            
+            // this.tableData
+            // console.log(tree);
+            res = res.map(item => {
                 return {
                     ...item,
                     active: item.active ? "是" : "否",
                     suspended: item.suspended ? "是" : "否"
                 };
             });
+            const tree = commonUtil.listToTree(res);
+            this.tableData = tree;
+
         });
     },
 };

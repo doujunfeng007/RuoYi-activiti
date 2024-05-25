@@ -38,6 +38,9 @@ export default {
       title: process.env.VUE_APP_TITLE,
       logo: logoImg
     }
+  },
+  mounted() {
+    console.log("title是", process.env.VUE_APP_TITLE);
   }
 }
 </script>

@@ -4,7 +4,11 @@
             <slot name="toolbar"></slot>
         </div>
         <div class="c-table-template__content">
-            <el-table :data="data" @selection-change="handleSelectionChange" height="530">
+            <el-table
+                :data="data"
+                :row-key="rowKey"
+                @selection-change="handleSelectionChange"
+            >
                 <el-table-column
                     v-if="selection"
                     type="selection"
@@ -18,7 +22,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             background
-            layout="total, sizes, prev, pager, next"
+            layout="total, sizes, prev, pager, next,jumper"
             :page-sizes="[10, 25, 50]"
             :total="total">
         </el-pagination>
@@ -45,6 +49,10 @@ export default {
         selection: {
             type: Boolean,
             default: false
+        },
+        rowKey: {
+            type: String,
+            default: ""
         }
     },
     data() {
@@ -83,5 +91,8 @@ export default {
 }
 .c-table-template__footer {
     margin-top: 8px;
+}
+.el-pagination {
+    text-align: right;
 }
 </style>

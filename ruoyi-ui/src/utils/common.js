@@ -35,8 +35,39 @@ function openWindow(path, prefix) {
     }
 }
 
+// 运行实例
+function listToTree(list) {
+    debugger;
+    const nodeMap = {};
+    const firstLevelList = list.filter(item => item.parentExecutionId === "0");
+    firstLevelList.forEach(item => {
+        const {executionId} = item;
+        nodeMap[executionId] = item;
+    });
+    while (true) {
+        list.forEach(item => {
+            const {parentExecutionId, executionId} = item;
+            if (nodeMap[executionId]) return;
+            if (nodeMap[parentExecutionId]) {
+                const parent = nodeMap[parentExecutionId];
+                if (parent.children) {
+                    parent.children.push(item);
+                } else {
+                    parent.children = [item];
+                }
+                nodeMap[executionId] = item;
+            }
+        });
+        if (Object.keys(nodeMap).length === list.length) {
+            return firstLevelList;
+        }
+    }
+
+}
+
 export default {
     objectToFormData,
     objectToQueryStr,
-    openWindow
+    openWindow,
+    listToTree
 };

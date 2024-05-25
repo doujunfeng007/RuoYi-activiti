@@ -1,29 +1,23 @@
 <template>
     <div class="c-model">
-        <div class="c-model__bar">
-            <el-row>
-                <el-col :span="2">
-                    模型标志：
-                </el-col>
-                <el-col :span="4" >
-                    <el-input v-model="searchParams.key"></el-input>
-                </el-col>
-                <el-col :span="2">
-                    模型名称：
-                </el-col>
-                <el-col :span="4">
-                    <el-input v-model="searchParams.name"></el-input>
-                </el-col>
-                <el-col :span="6">
-                    <el-button type="success" @click="search">确定</el-button>
-                    <el-button type="warning" @click="reset">重置</el-button>
-                </el-col>
-            </el-row>
+        <div class="search-bar">
+            <div>
+                <label>模型标志</label>
+                <el-input v-model="searchParams.key" size="small"></el-input>
+            </div>
+            <div>
+                <label>模型标志</label>
+                 <el-input v-model="searchParams.name" size="small"></el-input>
+            </div>
+            <div>
+                <el-button type="primary" @click="search" size="mini" icon="el-icon-search">搜索</el-button>
+                <el-button type="default" @click="reset" size="mini" icon="el-icon-refresh">重置</el-button>
+            </div>
         </div>
         <div class="c-model__content">
             <table-template :data="tableData">
                 <template #toolbar>
-                    <el-button type="warning" @click="showAddDialog = true">新建模型</el-button>
+                    <el-button type="primary" @click="showAddDialog = true" size="mini" plain icon="el-icon-plus">新建模型</el-button>
                 </template>
                 <template #columns>
                     <el-table-column
@@ -57,20 +51,20 @@
                         <!--primary / success / warning / danger / info / text-->
                         <el-button
                         size="mini"
-                        type="warning"
+                        type="text"
                         @click="handleDesign(scope.$index, scope.row)">设计</el-button>
                         <el-button
                         v-if="!scope.row.deploymentId"
                         size="mini"
-                        type="primary"
+                        type="text"
                         @click="handlePublish(scope.$index, scope.row)">发布</el-button>
                         <el-button
                         size="mini"
-                        type="success"
+                        type="text"
                         @click="handleExport(scope.$index, scope.row)">导出</el-button>
                         <el-button
                         size="mini"
-                        type="danger"
+                        type="text"
                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -211,16 +205,20 @@ export default {
 };
 </script>
 
-<style scoped>
-.c-model {
-    padding: 0 16px;
+<style>
+label {
+    font-size: 14px;
+    color: #606266;
+    margin-right: 8px;
 }
-.c-model__bar {
-    margin-bottom: 16px;
-    line-height: 36px;
-    margin-top: 16px;
+.search-bar {
+    display: flex;
+    margin-top: 8px;
+    margin-left: 8px;
 }
-.c-model__tool {
-    margin-bottom: 8px;
+.el-input {
+    display: inline-block;
+    width: 300px;
+    margin-right: 10px;
 }
 </style>
