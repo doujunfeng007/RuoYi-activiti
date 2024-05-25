@@ -1,11 +1,24 @@
 <template>
     <div>
-        <table-template :data="tableData" :total="total">
-            <template #toolbar>
-                <el-button type="primary">添加</el-button>
-                <el-button type="danger">删除</el-button>
-                <el-button type="warning">导出</el-button>
-            </template>
+        <div class="search-bar">
+            <div>
+                <label>流程名称</label>
+                <el-input v-model="searchParams.processName" size="small"></el-input>
+            </div>
+            <div>
+                <label>任务名称</label>
+                 <el-input v-model="searchParams.taskName" size="small"></el-input>
+            </div>
+            <div>
+                <el-button type="primary" @click="search" size="mini" icon="el-icon-search">搜索</el-button>
+                <el-button type="default" @click="reset" size="mini" icon="el-icon-refresh">重置</el-button>
+            </div>
+        </div>
+        <table-template
+            :data="tableData"
+            :total="total"
+            @page-change="handlePageChange"
+        >
             <template #columns>
                 <el-table-column
                     prop="taskName"
@@ -43,6 +56,16 @@
                     prop="startTime"
                     label="流程启动时间">
                 </el-table-column>
+                <el-table-column
+                    prop="operation"
+                    label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                        size="mini"
+                        type="text"
+                        @click="handleTodo(scope.$index, scope.row)">办理</el-button>
+                    </template>
+                </el-table-column>
             </template>
         </table-template>
     </div>
@@ -53,13 +76,19 @@ import TableTemplate from "@/components/TableTemplate";
 import {getAllTodoList} from "./api/allTodoList";
 
 export default {
-    name: "myTodoList",
+    name: "AllTodoList",
     components: {
         TableTemplate
     },
     data() {
         return {
-            responseData: {}
+            responseData: {},
+            searchParams: {
+                taskName: "",
+                processName: "",
+                pageNum: 1,
+                pageSize: 10
+            }
         };
     },
     computed: {
@@ -71,15 +100,57 @@ export default {
         }
     },
     mounted() {
-        getAllTodoList({
-            pageSize: 10,
-            pageNum: 1,
-            isAsc: "asc",
-            processName: "",
-            taskName: ""
-        }).then(res => {
-            this.responseData = res;
-        });
+       this.getAllTodoListByParamsAndRender(this.searchParams);
+    },
+    methods: {
+        getAllTodoListByParamsAndRender(params) {
+            const {pageSize = 1, pageNum = 10, processName = "", taskName = ""} = params;
+            getAllTodoList({
+                pageSize,
+                pageNum,
+                isAsc: "asc",
+                processName,
+                taskName
+            }).then(res => {
+                this.responseData = res;
+            });
+        },
+        search() {
+            this.getAllTodoListByParamsAndRender(this.searchParams);
+        },
+        reset() {
+            this.searchParams.processName = "";
+            this.searchParams.taskName = "";
+            this.getAllTodoListByParamsAndRender(this.searchParams);
+        },
+        handlePageChange() {},
+        handleTodo(index, row) {
+            console.log("todo", row);
+            const {formKey, taskId, businessKey} = row;
+            this.$router.push({
+                path: `/process/${formKey}/${taskId}?id=${businessKey}`,
+                meta: { title: "测试" },
+                params: {row}
+            })
+        }
     },
 };
 </script>
+
+<style scoped>
+label {
+    font-size: 14px;
+    color: #606266;
+    margin-right: 8px;
+}
+.search-bar {
+    display: flex;
+    margin-top: 8px;
+    margin-left: 8px;
+}
+.el-input {
+    display: inline-block;
+    width: 300px;
+    margin-right: 10px;
+}
+</style>
