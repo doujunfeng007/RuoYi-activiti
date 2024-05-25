@@ -17,7 +17,14 @@
                 <el-input v-model="form.name" :disabled="canNotEdit"></el-input>
             </el-form-item>
             <el-form-item label="人事" v-if="step==='deptleadercheck'">
-                <el-input v-model="form.hr"></el-input>
+                <el-select v-model="form.hr">
+                    <el-option
+                        v-for="(user, i) in userList" 
+                        :key="i"
+                        :label="user.userName"
+                        :value="user.userName"
+                    ></el-option>
+                </el-select>
             </el-form-item>
             <template v-if="step==='deptleadercheck' || step==='hrcheck'">
                 <el-form-item label="审批结果" >
@@ -94,7 +101,7 @@ const stepMap = {
     destroyapply: "destroyapply"
 };
 
-
+import {listUser} from "@/api/system/user.js"
 export default {
     props: {
         step: {
@@ -110,13 +117,20 @@ export default {
         return {
             form: {},
             realityStartTime: "",
-            realityEndTime: ""
+            realityEndTime: "",
+            userList: []
         };
     },
     computed: {
         canNotEdit() {
             return this.step !== "addleave" && this.step !== "modifyapply";
         }
+    },
+    mounted() {
+        listUser().then(res => {
+            console.log("获取用户", res);
+            this.userList = res.rows;
+        });
     },
     methods: {
         onSubmit() {

@@ -75,22 +75,42 @@
                 </el-form-item>
                 <el-form-item label="采购经理">
                     <el-select v-model="form.purchasemanager">
-                        <el-option label="若依" value="admin"></el-option>
+                        <el-option
+                            v-for="(user, i) in userList" 
+                            :key="i"
+                            :label="user.userName"
+                            :value="user.userName"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="财务">
                     <el-select v-model="form.finance">
-                        <el-option label="若依" value="admin"></el-option>
+                        <el-option
+                            v-for="(user, i) in userList" 
+                            :key="i"
+                            :label="user.userName"
+                            :value="user.userName"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="出纳">
                     <el-select v-model="form.pay">
-                        <el-option label="若依" value="admin"></el-option>
+                        <el-option
+                            v-for="(user, i) in userList" 
+                            :key="i"
+                            :label="user.userName"
+                            :value="user.userName"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="总经理">
                     <el-select v-model="form.manager">
-                        <el-option label="若依" value="admin"></el-option>
+                        <el-option
+                            v-for="(user, i) in userList" 
+                            :key="i"
+                            :label="user.userName"
+                            :value="user.userName"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
             </el-form>
@@ -105,7 +125,7 @@
 <script>
 import TableTemplate from "@/components/TableTemplate";
 import {getPurchaseApplyList, addPurchase, deletePurchase, exportPurchase} from "./api/purchase.js";
-
+import {listUser} from "@/api/system/user.js"
 // itemlist: 笔
 // total: 100
 // applyer: admin
@@ -138,6 +158,7 @@ export default {
                 pageNum: 1
             },
             currentSelection: [],
+            userList: []
         };
     },
     computed: {
@@ -152,7 +173,11 @@ export default {
         },
     },
     mounted() {
-        this.getPurchaseApplyListAndRender(this.searchParams)
+        this.getPurchaseApplyListAndRender(this.searchParams);
+         listUser().then(res => {
+            console.log("获取用户", res);
+            this.userList = res.rows;
+        });
     },
     methods: {
         handleSelectionChange(selection) {
@@ -173,7 +198,10 @@ export default {
             });
         },
         handleAdd() {
-            addPurchase(this.form).then(res => {
+            const params = Object.assign({}, this.form, {
+                peoplelist: this.form.peoplelist.join()
+            })
+            addPurchase(params).then(res => {
                 this.$message.success("添加成功!");
                 this.dialogVisible = false;
                 this.getPurchaseApplyListAndRender(this.searchParams);

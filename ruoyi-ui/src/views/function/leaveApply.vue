@@ -3,7 +3,7 @@
         <div class="search-bar">
             <div>
                 <label>请假类型:</label>
-                <el-select v-model="searchParams.leaveType">
+                <el-select v-model="searchParams.leaveType" size="small">
                     <el-option label="所有" value="" :key="99"></el-option>
                     <el-option v-for="(leaveType, i) in leaveTypeList" :label="leaveType" :value="leaveType" :key="i"></el-option>
                 </el-select>
@@ -11,6 +11,7 @@
             <div>
                 <label>申请时间:</label>
                 <el-date-picker
+                    size="small"
                     v-model="searchParams.range"
                     value-format="yyyy-MM-dd"
                     type="daterange"
@@ -20,8 +21,8 @@
                 </el-date-picker>
             </div>
             <div>
-                <el-button type="success" @click="search">搜索</el-button>
-                <el-button type="warning" @click="reset">重置</el-button>
+                <el-button type="primary" @click="search" size="mini" icon="el-icon-search">搜索</el-button>
+                <el-button type="default" @click="reset" size="mini" icon="el-icon-refresh">重置</el-button>
             </div>
         </div>
         <table-template
@@ -32,9 +33,9 @@
             @page-change="handlePageChange"
         >
             <template #toolbar>
-                <el-button type="primary" @click="dialogVisible = true">添加</el-button>
-                <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleMultipleDelete">删除</el-button>
-                <el-button type="warning" @click="handleExport">导出</el-button>
+                <el-button type="primary" @click="dialogVisible = true" plain icon="el-icon-plus" size="mini">添加</el-button>
+                <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleMultipleDelete" plain icon="el-icon-delete" size="mini">删除</el-button>
+                <el-button type="warning" @click="handleExport" plain icon="el-icon-download" size="mini">导出</el-button>
             </template>
             <template #columns>
                 <el-table-column
@@ -71,7 +72,7 @@
                     <template slot-scope="scope">
                         <el-button
                         size="mini"
-                        type="danger"
+                        type="text"
                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -98,7 +99,12 @@
                 </el-form-item>
                 <el-form-item label="部门领导">
                     <el-select v-model="form.deptleader">
-                        <el-option label="若依" value="admin"></el-option>
+                        <el-option
+                            v-for="(user, i) in userList" 
+                            :key="i"
+                            :label="user.userName"
+                            :value="user.userName"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
             </el-form>
@@ -120,6 +126,7 @@
 // deptleader: admin
 import TableTemplate from "@/components/TableTemplate";
 import {getLeaveApplyList, addLeave, deleteLeave, exportLeave} from "./api/leaveApply";
+import {listUser} from "@/api/system/user.js"
 
 export default {
     name: "leaveApply",
@@ -145,7 +152,8 @@ export default {
                 reason: "",
                 deptleader: "admin"
             },
-            currentSelection: []
+            currentSelection: [],
+            userList: []
         };
     },
     computed: {
@@ -161,6 +169,10 @@ export default {
     },
     mounted() {
         this.getLeaveApplyListAndRender(this.searchParams)
+        listUser().then(res => {
+            console.log("获取用户", res);
+            this.userList = res.rows;
+        });
     },
     methods: {
         handleMultipleDelete() {
@@ -253,5 +265,15 @@ export default {
     display: flex;
     margin-top: 8px;
     margin-left: 8px;
+}
+.el-input {
+    display: inline-block;
+    width: 300px;
+    margin-right: 10px;
+}
+label {
+    font-size: 14px;
+    color: #606266;
+    margin-right: 8px;
 }
 </style>

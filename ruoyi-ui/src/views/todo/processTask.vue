@@ -71,7 +71,6 @@ export default {
     },
     methods: {
         handleSubmit(data) {
-            console.log(data);
             if (this.taskType === "meeting") {
                 if (this.step === "input") {
                     const id = this.$route.query.id;
@@ -114,14 +113,30 @@ export default {
                     });
                 }
             }
-           
-
             processTask({
                 taskId: this.taskId,
                 ...data
             }).then(res => {
-                console.log("审批通过!");
+                this.$message.success("处理成功!");
+                this.$tab.closePage(this.$route).then(({ visitedViews }) => {
+                    this.toLastView(visitedViews, this.$route)
+                });
             });
+        },
+        toLastView(visitedViews, view) {
+            const latestView = visitedViews.slice(-1)[0]
+            if (latestView) {
+                this.$router.push(latestView.fullPath)
+            } else {
+                // now the default is to redirect to the home page if there is no tags-view,
+                // you can adjust it according to your needs.
+                if (view.name === 'Dashboard') {
+                // to reload home page
+                this.$router.replace({ path: '/redirect' + view.fullPath })
+                } else {
+                this.$router.push('/')
+                }
+            }
         },
         handleCancel() {
             forceEnd(this.taskId).then(res => {

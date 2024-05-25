@@ -3,23 +3,23 @@
         <div class="search-bar">
             <div>
                 <label>会议主题:</label>
-                <el-input type="text" v-model="searchParams.topic" />
+                <el-input type="text" v-model="searchParams.topic" size="small" />
             </div>
             <div>
                 <label>主持人:</label>
-                <el-input type="text" v-model="searchParams.host" />
+                <el-input type="text" v-model="searchParams.host"  size="small"/>
             </div>
             <div>
                 <label>会议地址:</label>
-                <el-input type="text" v-model="searchParams.place" />
+                <el-input type="text" v-model="searchParams.place"  size="small" />
             </div>
             <div>
                 <label>参会人员:</label>
-                <el-input type="text" v-model="searchParams.peoplelist" />
+                <el-input type="text" v-model="searchParams.peoplelist" size="small" />
             </div>
             <div>
-                <el-button type="success" @click="search">搜索</el-button>
-                <el-button type="warning" @click="reset">重置</el-button>
+                <el-button type="primary" @click="search" size="mini" icon="el-icon-search">搜索</el-button>
+                <el-button type="default" @click="reset" size="mini" icon="el-icon-refresh">重置</el-button>
             </div>
         </div>
         <table-template
@@ -30,9 +30,9 @@
             @page-change="handlePageChange"
         >
             <template #toolbar>
-                <el-button type="primary" @click="dialogVisible = true">添加</el-button>
-                <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleDelelteMultiple">删除</el-button>
-                <el-button type="warning" @click="handleExport">导出</el-button>
+                <el-button type="primary" @click="dialogVisible = true" plain icon="el-icon-plus">添加</el-button>
+                <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleDelelteMultiple" plain icon="el-icon-delete">删除</el-button>
+                <el-button type="warning" @click="handleExport" plain icon="el-icon-download">导出</el-button>
             </template>
             <template #columns>
                 <el-table-column
@@ -66,7 +66,7 @@
                     <template slot-scope="scope">
                         <el-button
                         size="mini"
-                        type="danger"
+                        type="text"
                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -84,7 +84,14 @@
                     <el-input v-model="form.palce"></el-input>
                 </el-form-item>
                 <el-form-item label="参会人员">
-                    <el-input v-model="form.peoplelist"></el-input>
+                    <el-select v-model="form.peoplelist" multiple>
+                        <el-option
+                            v-for="(user, i) in userList" 
+                            :key="i"
+                            :label="user.userName"
+                            :value="user.userName"
+                        ></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="开始时间">
                     <el-date-picker type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期" v-model="form.startTime" style="width: 100%;"></el-date-picker>
@@ -104,7 +111,7 @@
 <script>
 import TableTemplate from "@/components/TableTemplate";
 import {getMeetingList, addMeeting, deleteMeeting, exportMeeting} from "./api/meeting";
-
+import {listUser} from "@/api/system/user.js"
 export default {
     name: "leaveApply",
     components: {
@@ -118,7 +125,7 @@ export default {
                 topic: "11111",
                 host: this.$store.state.user.name,
                 place: "111",
-                peoplelist: "111111",
+                peoplelist: [],
                 startTime: "2024-04-01 01:55:14",
                 endTime: "2024-04-03 05:55:14"
             },
@@ -131,6 +138,7 @@ export default {
                 peoplelist: "",
             },
             currentSelection: [],
+            userList: []
         };
     },
     computed: {
@@ -146,6 +154,10 @@ export default {
     },
     mounted() {
         this.getMeetingListAndRender(this.searchParams);
+        listUser().then(res => {
+            console.log("获取用户", res);
+            this.userList = res.rows;
+        });
     },
     methods: {
         getMeetingListAndRender(params) {
@@ -229,6 +241,11 @@ export default {
 </script>
 
 <style scoped>
+label {
+    font-size: 14px;
+    color: #606266;
+    margin-right: 8px;
+}
 .search-bar {
     display: flex;
     margin-top: 8px;
@@ -236,7 +253,7 @@ export default {
 }
 .el-input {
     display: inline-block;
-    width: 300px;
+    width: 200px;
     margin-right: 10px;
 }
 </style>

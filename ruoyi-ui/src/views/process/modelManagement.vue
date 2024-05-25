@@ -15,7 +15,11 @@
             </div>
         </div>
         <div class="c-model__content">
-            <table-template :data="tableData">
+            <table-template
+                :data="tableData"
+                :total="total"
+                @page-change="handlePageChange"
+            >
                 <template #toolbar>
                     <el-button type="primary" @click="showAddDialog = true" size="mini" plain icon="el-icon-plus">新建模型</el-button>
                 </template>

@@ -3,27 +3,27 @@
         <div class="search-bar">
             <div>
                 <label>流程标识:</label>
-                <el-input v-model="searchParams.key"></el-input>
+                <el-input v-model="searchParams.key" size="small"></el-input>
             </div>
             <div>
                 <label>流程名称:</label>
-                <el-input v-model="searchParams.name"></el-input>
+                <el-input v-model="searchParams.name" size="small"></el-input>
             </div>
             <div>
                 <label>版本:</label>
-                <el-select v-model="searchParams.latest">
+                <el-select v-model="searchParams.latest" size="small">
                     <el-option label="只看新版本" value="true"></el-option>
                     <el-option label="全部版本" value="false"></el-option>
                 </el-select>
             </div>
             <div>
-                <el-button type="success" @click="search">搜索</el-button>
-                <el-button type="warning" @click="reset">重置</el-button>
+                <el-button type="primary" @click="search" size="mini" icon="el-icon-search">搜索</el-button>
+                <el-button type="default" @click="reset" size="mini" icon="el-icon-refresh">重置</el-button>
             </div>
         </div>
         <table-template :data="tableData" :total="total" @page-change="handlePageChange">
             <template #toolbar>
-                <el-button type="primary" @click="showAddDialog = true">部署</el-button>
+                <el-button type="primary" @click="showAddDialog = true" plain>部署</el-button>
             </template>
             <template #columns>
                 <el-table-column
@@ -57,11 +57,11 @@
                     <template slot-scope="scope">
                         <el-button
                         size="mini"
-                        type="warning"
+                        type="text"
                         @click="handleDefinition(scope.$index, scope.row)">查看定义</el-button>
                         <el-button
                         size="mini"
-                        type="primary"
+                        type="text"
                         @click="handleProcess(scope.$index, scope.row)">流程图</el-button>
                     </template>
                 </el-table-column>
@@ -74,20 +74,20 @@
                         <el-button
                         v-if="scope.row.suspended"
                         size="mini"
-                        type="success"
+                        type="text"
                         @click="handleActive(scope.$index, scope.row)">激活</el-button>
                         <el-button
                         v-if="!scope.row.suspended"
                         size="mini"
-                        type="primary"
+                        type="text"
                         @click="handleHangOff(scope.$index, scope.row)">挂起</el-button>
                         <el-button
                         size="mini"
-                        type="success"
+                        type="text"
                         @click="handleExchange(scope.$index, scope.row)">转为模型</el-button>
                         <el-button
                         size="mini"
-                        type="danger"
+                        type="text"
                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -280,6 +280,11 @@ export default {
     display: flex;
     margin-top: 8px;
     margin-left: 8px;
+}
+label {
+    font-size: 14px;
+    color: #606266;
+    margin-right: 8px;
 }
 .el-input {
     display: inline-block;
