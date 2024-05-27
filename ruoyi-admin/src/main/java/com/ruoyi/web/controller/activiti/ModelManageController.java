@@ -158,7 +158,7 @@ public class ModelManageController extends BaseController {
         String filename = bpmnModel.getMainProcess().getId() + ".bpmn20.xml";
         response.setHeader("Content-Disposition","attachment;filename=" + filename);
         response.setHeader("content-Type", "application/xml");
-        response.flushBuffer();
+//        response.flushBuffer();
         IOUtils.copy(in, response.getOutputStream());
     }
 

@@ -259,6 +259,8 @@ public class FlowMonitorController extends BaseController {
     @ApiOperation("流程图进度追踪")
     @RequestMapping(value = {"/traceProcess/{processInstanceId}"}, method = RequestMethod.GET)
     public void traceprocess(@PathVariable String processInstanceId, HttpServletResponse response) throws IOException {
+        response.setContentType("image/jpeg;charset=UTF-8");
+        response.setHeader("Content-Disposition", "inline; filename= trace.png");
         activitiTracingChart.generateFlowChart(processInstanceId, response.getOutputStream());
     }
 
