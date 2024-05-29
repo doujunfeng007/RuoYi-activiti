@@ -171,18 +171,19 @@ export default {
     },
     methods: {
         getListHistoryProcessByParamsAndRender(params) {
-            const {pageNum = 1, pageSize = 10, name = "", businessKey = ""} = params;
+            const {pageNum = 1, pageSize = 10, name = "", bussinesskey = ""} = params;
             getListHistoryProcess({
                 pageSize,
                 pageNum,
                 isAsc: "asc",
                 name,
-                businessKey
+                bussinesskey
             }).then(res => {
                 this.responseData = res;
             });
         },
         search() {
+            console.log("this.searchParams", this.searchParams)
             this.getListHistoryProcessByParamsAndRender(this.searchParams);
         },
         reset() {

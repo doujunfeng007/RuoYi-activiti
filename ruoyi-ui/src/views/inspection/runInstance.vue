@@ -10,7 +10,7 @@
                 <el-button type="warning" @click="reset">重置</el-button>
             </div>
         </div>
-        <table-template :data="tableData" :total="total" row-key="executionId">
+        <table-template :data="tableData" row-key="executionId" no-page>
             <template #columns>
                 <el-table-column
                     prop="executionId"
@@ -59,38 +59,42 @@ export default {
         return {
             tableData: [],
             searchParams: {
-                name: "",
-                bussinesskey: "",
-                pageSize: 10,
-                pageNum: 1
+                name: ""
             }
         };
     },
     mounted() {
-        getListExecutions({
-            pageSize: 10,
-            pageNum: 1,
-            isAsc: "asc",
-            name: "",
-            businessKey: ""
-            // "params[beginApplyTime]": "",
-            // "params[endApplyTime]": ""
-        }).then(res => {
-            
-            // this.tableData
-            // console.log(tree);
-            res = res.map(item => {
-                return {
-                    ...item,
-                    active: item.active ? "是" : "否",
-                    suspended: item.suspended ? "是" : "否"
-                };
-            });
-            const tree = commonUtil.listToTree(res);
-            this.tableData = tree;
-
-        });
+       this.getListExecutionsByParamsAndRender(this.searchParams);
     },
+    methods: {
+        search() {
+            this.getListExecutionsByParamsAndRender(this.searchParams);
+        },
+        reset() {
+            this.searchParams.name = "";
+            this.getListExecutionsByParamsAndRender(this.searchParams);
+        },
+        getListExecutionsByParamsAndRender(params) {
+            const {
+                name = "",
+            } = params;
+            let requestParams;
+            if (name) {
+                requestParams = {name};
+            }
+            getListExecutions(requestParams).then(res => {
+                res = res.map(item => {
+                    return {
+                        ...item,
+                        active: item.active ? "是" : "否",
+                        suspended: item.suspended ? "是" : "否"
+                    };
+                });
+                const tree = commonUtil.listToTree(res);
+                this.tableData = tree;
+            });
+        }
+    }
 };
 </script>
 

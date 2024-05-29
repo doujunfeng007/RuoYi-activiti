@@ -63,7 +63,7 @@
             </template>
         </table-template>
         <el-dialog :visible.sync="dialogVisible">
-            <el-form ref="form" :model="form">
+            <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="采购清单">
                     <el-input type="textarea" v-model="form.itemlist"></el-input>
                 </el-form-item>
@@ -143,8 +143,8 @@ export default {
             responseData: {},
             dialogVisible: false,
             form: {
-                itemlist: "笔",
-                total: "100",
+                itemlist: "",
+                total: "",
                 applyer: this.$store.state.user.name,
                 purchasemanager: "admin",
                 finance: "admin",
@@ -198,10 +198,7 @@ export default {
             });
         },
         handleAdd() {
-            const params = Object.assign({}, this.form, {
-                peoplelist: this.form.peoplelist.join()
-            })
-            addPurchase(params).then(res => {
+            addPurchase(this.form).then(res => {
                 this.$message.success("添加成功!");
                 this.dialogVisible = false;
                 this.getPurchaseApplyListAndRender(this.searchParams);
@@ -275,9 +272,10 @@ export default {
     margin-top: 8px;
     margin-left: 8px;
 }
-.el-input {
+.search-bar .el-input {
     display: inline-block;
     width: 300px;
     margin-right: 10px;
 }
+
 </style>

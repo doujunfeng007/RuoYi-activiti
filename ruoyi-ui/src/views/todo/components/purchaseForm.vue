@@ -2,16 +2,16 @@
     <div class="c-purchase-form">
         <el-form  ref="form" :model="form" label-width="80px">
             <el-form-item label="申请人">
-                <el-input v-model="form.name" :disabled="canNotEdit"></el-input>
+                <el-input v-model="form.applyer" :disabled="canNotEdit"></el-input>
             </el-form-item>
             <el-form-item label="申请时间">
-                <el-input v-model="form.name" :disabled="canNotEdit">></el-input>
+                <el-input v-model="form.applytime" :disabled="canNotEdit">></el-input>
             </el-form-item>
             <el-form-item label="采购清单">
-                <el-input v-model="form.name" :disabled="canNotEdit">></el-input>
+                <el-input v-model="form.itemlist" :disabled="canNotEdit">></el-input>
             </el-form-item>
             <el-form-item label="总价">
-                <el-input v-model="form.name" :disabled="canNotEdit">></el-input>
+                <el-input v-model="form.total" :disabled="canNotEdit">></el-input>
             </el-form-item>
             <template v-if="step === 'finance' || step === 'purchasemanager'">
                 <el-form-item label="审批结果">
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+
+
 const keyMap = {
     purchasemanager: "purchaseauditi",
     finance: "finance",
@@ -52,15 +54,30 @@ export default {
             type: String,
             default: ""
         },
-        baseInfo: {
+        formInfo: {
             type: Object,
             default: () => ({})
         }
     },
     data() {
         return {
-            form: {}
+            form: {
+                updateapply: "true",
+                result: "true",
+                applyer: "",
+                applytime: "",
+                itemlist: "",
+                total: ""
+            }
         };
+    },
+    watch: {
+        formInfo(newFormValue) {
+            this.form.applyer = newFormValue.applyer;
+            this.form.applytime = newFormValue.applytime;
+            this.form.itemlist = newFormValue.itemlist;
+            this.form.total = newFormValue.total;
+        }
     },
     computed: {
         canNotEdit() {

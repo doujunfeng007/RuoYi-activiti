@@ -7,6 +7,7 @@
             <el-table
                 :data="data"
                 :row-key="rowKey"
+                default-expand-all
                 @selection-change="handleSelectionChange"
             >
                 <el-table-column
@@ -19,6 +20,7 @@
         </div>
        <div class="c-table-template__footer">
         <el-pagination
+            v-if="!noPage"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             background
@@ -53,6 +55,10 @@ export default {
         rowKey: {
             type: String,
             default: ""
+        },
+        noPage: {
+            type: Boolean,
+            default: false
         }
     },
     data() {

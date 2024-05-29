@@ -37,7 +37,6 @@ function openWindow(path, prefix) {
 
 // 运行实例
 function listToTree(list) {
-    debugger;
     const nodeMap = {};
     const firstLevelList = list.filter(item => item.parentExecutionId === "0");
     firstLevelList.forEach(item => {
@@ -65,9 +64,29 @@ function listToTree(list) {
 
 }
 
+function normalizeDateTimeString(rawDatatimeStr) {
+    function genNumStr(num) {
+        return Number(num) < 10 ? "0" + num : ("" + num) 
+    }
+    if (rawDatatimeStr) {
+        const dateObj = new Date(rawDatatimeStr);
+
+        const yyyy = dateObj.getFullYear();
+        const MM = dateObj.getMonth();
+        const dd = dateObj.getDate();
+
+        const HH = dateObj.getHours();
+        const mm = dateObj.getMinutes();
+        const ss = dateObj.getDate();
+
+        return `${yyyy}-${genNumStr(MM)}-${genNumStr(dd)} ${genNumStr(HH)}:${genNumStr(mm)}:${genNumStr(ss)}`;
+    }
+}
+
 export default {
     objectToFormData,
     objectToQueryStr,
     openWindow,
-    listToTree
+    listToTree,
+    normalizeDateTimeString
 };

@@ -2,16 +2,16 @@
     <div class="c-meeting-form">
         <el-form  ref="form" :model="form" label-width="80px">
             <el-form-item label="会议主题">
-                <el-input v-model="form.name" disabled></el-input>
+                <el-input v-model="form.topic" disabled></el-input>
             </el-form-item>
             <el-form-item label="主持人">
-                <el-input v-model="form.name" disabled></el-input>
+                <el-input v-model="form.host" disabled></el-input>
             </el-form-item>
             <el-form-item label="会议地址">
-                <el-input v-model="form.name" disabled></el-input>
+                <el-input v-model="form.place" disabled></el-input>
             </el-form-item>
             <el-form-item label="参会人员">
-                <el-input v-model="form.name" disabled></el-input>
+                <el-input v-model="form.peoplelist" disabled></el-input>
             </el-form-item>
             <el-form-item label="开始时间">
                 <el-input v-model="form.startTime" disabled></el-input>
@@ -37,15 +37,32 @@ export default {
             type: String,
             default: ""
         },
-        baseInfo: {
+        formInfo: {
             type: Object,
             default: () => ({})
         }
     },
     data() {
         return {
-            form: {}
+            form: {
+                place: "",
+                endTime: "",
+                peoplelist: "",
+                startTime: "",
+                topic: "",
+                host: ""
+            }
         };
+    },
+    watch: {
+        formInfo(newFormValue) {
+            this.form.place = newFormValue.place;
+            this.form.endTime = newFormValue.endTime;
+            this.form.peoplelist = newFormValue.peoplelist;
+            this.form.startTime = newFormValue.startTime;
+            this.form.topic = newFormValue.topic;
+            this.form.host = newFormValue.host;
+        }
     },
     methods: {
         onSubmit() {

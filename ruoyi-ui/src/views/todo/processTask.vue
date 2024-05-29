@@ -4,6 +4,7 @@
             <leave-apply-form
                 v-if="taskType === 'leaveapply'"
                 :step="step"
+                :form-info="formInfo"
                 @submit="handleSubmit"
                 @cancel="handleCancel"
                 @reject="handleReject"
@@ -11,11 +12,13 @@
             <purchase-form
                 v-if="taskType === 'purchase'"
                 :step="step"
+                :form-info="formInfo"
                 @submit="handleSubmit"
             ></purchase-form>
             <meeting-form
                 v-if="taskType === 'meeting'"
                 :step="step"
+                :form-info="formInfo"
                 @submit="handleSubmit"
             ></meeting-form>
         </div>
@@ -33,7 +36,8 @@ import {
     checkoutLeave,
     forceEnd,
     rejectLeave,
-    updatePurchase
+    updatePurchase,
+    getInfoByTaskId
 } from "./api/myTodoList";
 import TimeLine from './components/TimeLine.vue';
 
@@ -41,7 +45,28 @@ import leaveApplyForm from './components/leaveApplyForm.vue';
 import meetingForm from './components/meetingForm.vue';
 import purchaseForm from './components/purchaseForm.vue';
 import LeaveApply from '../function/leaveApply.vue';
+const urlMap = {
+    // 部门领导审批
+    "deptleadercheck": "/leaveapply/deptleadercheck",
+    // 人事审批
+    "hrcheck": "/leaveapply/hrcheck",
+    // 销假
+    "destroyapply": "/leaveapply/destroyapply",
+    // 请假流程中拒绝过程,回到申请人进行修改
+    "modifyapply": "/leaveapply/modifyapply",
+    // 发起请假申请,此处为驳回后返回的位置
+    "addleave": "/leaveapply/addleave",
 
+    purchasemanager: "/purchase/purchasemanager",
+    finance: "/purchase/finance",
+    pay: "/purchase/pay",
+    receiveitem: "/purchase/receiveitem",
+    // 拒绝后，申请人重新申请
+    updateapply: "/purchase/updateapply",
+
+    input: "/meeting/input",
+    signate: "/meeting/signate"
+}
 export default {
     components: {
         TimeLine,
@@ -55,7 +80,8 @@ export default {
             activities: [],
             taskType: "",
             step: "",
-            taskId: ""
+            taskId: "",
+            formInfo: {}
         };
     },
     mounted() {
@@ -67,6 +93,13 @@ export default {
         getProcessByTaskid(taskId).then(res => {
             console.log("拿到流程信息", res);
             this.activities = res;
+        });
+        console.log("step","taskId",step ,urlMap[step], taskId);
+        getInfoByTaskId(urlMap[step], taskId).then(res => {
+            console.log("step","taskId", res);
+            if (res.data) {
+                this.formInfo = res.data;
+            }
         });
     },
     methods: {
@@ -141,21 +174,28 @@ export default {
         handleCancel() {
             forceEnd(this.taskId).then(res => {
                 console.log("撤销成功");
+                this.$tab.closePage(this.$route).then(({ visitedViews }) => {
+                    this.toLastView(visitedViews, this.$route)
+                });
             });
         },
         handleReject() {
             rejectLeave(this.taskId).then(res => {
                 console.log("驳回成功!");
+                this.$tab.closePage(this.$route).then(({ visitedViews }) => {
+                    this.toLastView(visitedViews, this.$route)
+                });
             })
         },
     }
 };
 </script>
 
-<style scoped>
+<style>
 .c-process-task {
     padding: 16px;
     display: flex;
+    justify-content: center;
 }
 .c-process-task__form {
     width: 500px;

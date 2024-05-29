@@ -45,6 +45,7 @@
                 <el-table-column
                     width="320"
                     prop="lastUpdateTime"
+                    :formatter="handleDateTime"
                     label="创建时间">
                 </el-table-column>
                 <el-table-column
@@ -160,6 +161,10 @@ export default {
                 });
             });
         },
+        handleDateTime(row) {
+            const {createTime} = row;
+            return commonHelper.normalizeDateTimeString(createTime);
+        },
         handleDesign(index, row) {
             const path = "/editor?modelId=" + row.id;
             commonHelper.openWindow(path);
@@ -168,6 +173,7 @@ export default {
             const id = row.id;
             publishModelById(id).then(res => {
                 this.$message.success("部署成功!");
+                this.getModelByParams(this.searchParams);
             });
         },
         handleExport(index, row) {

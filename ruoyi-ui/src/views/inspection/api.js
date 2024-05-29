@@ -33,10 +33,14 @@ export const enableProcess = (processInstanceId, enable) => {
 
 // 执行实例
 export const getListExecutions = data => {
-    const queryString = commonUtil.objectToQueryStr(data);
+    const queryString = data && commonUtil.objectToQueryStr(data);
     return request({
         url: '/flow/monitor/listExecutions',
-        method: 'post'
+        method: 'post',
+        data: queryString,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
     });
 }
 

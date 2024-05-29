@@ -93,3 +93,12 @@ export const rejectLeave = taskId => {
         method: 'get',
     });
 }
+
+
+// 获取待办业务数据
+export const getInfoByTaskId = (url, taksId) => {
+    return request({
+        url: url + `?taskid=${taksId}`,
+        method: 'get',
+    });
+}

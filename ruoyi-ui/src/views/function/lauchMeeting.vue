@@ -81,7 +81,7 @@
                     <el-input v-model="form.host" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="会议地址">
-                    <el-input v-model="form.palce"></el-input>
+                    <el-input v-model="form.place"></el-input>
                 </el-form-item>
                 <el-form-item label="参会人员">
                     <el-select v-model="form.peoplelist" multiple>
@@ -122,12 +122,12 @@ export default {
             responseData: {},
             dialogVisible: false,
             form: {
-                topic: "11111",
+                topic: "",
                 host: this.$store.state.user.name,
-                place: "111",
+                place: "",
                 peoplelist: [],
-                startTime: "2024-04-01 01:55:14",
-                endTime: "2024-04-03 05:55:14"
+                startTime: "",
+                endTime: ""
             },
             searchParams: {
                 pageNum: 1,
@@ -175,7 +175,11 @@ export default {
             });
         },
         handleAdd() {
-            addMeeting(this.form).then(res => {
+            console.log("填写的form值是", this.form);
+            const params = Object.assign({}, this.form, {
+                peoplelist: this.form.peoplelist.join()
+            });
+            addMeeting(params).then(res => {
                 this.dialogVisible = false;
                 this.$message.success("添加成功");
                 this.getMeetingListAndRender(this.searchParams);
@@ -241,7 +245,7 @@ export default {
 </script>
 
 <style scoped>
-label {
+.search-bar label {
     font-size: 14px;
     color: #606266;
     margin-right: 8px;
@@ -251,7 +255,7 @@ label {
     margin-top: 8px;
     margin-left: 8px;
 }
-.el-input {
+.search-bar .el-input {
     display: inline-block;
     width: 200px;
     margin-right: 10px;

@@ -266,12 +266,12 @@ export default {
     margin-top: 8px;
     margin-left: 8px;
 }
-.el-input {
+.search-bar .el-input {
     display: inline-block;
     width: 300px;
     margin-right: 10px;
 }
-label {
+.search-bar label {
     font-size: 14px;
     color: #606266;
     margin-right: 8px;
