@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">若依后台管理系统</h3>
+      <h3 class="title">登录</h3>
       <el-form-item prop="username">
         <el-input
           v-model="loginForm.username"
@@ -37,7 +37,9 @@
           <img :src="codeUrl" @click="getCode" class="login-code-img"/>
         </div>
       </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
+      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">
+        <span style="color: white;">记住我</span>
+      </el-checkbox>
       <el-form-item style="width:100%;">
         <el-button
           :loading="loading"
@@ -169,6 +171,10 @@ export default {
   text-align: center;
   color: #707070;
 }
+.title {
+  color: white;
+  text-align: left;
+}
 
 .login-form {
   border-radius: 6px;
@@ -186,6 +192,9 @@ export default {
     width: 14px;
     margin-left: 2px;
   }
+}
+.login-form {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 .login-tip {
   font-size: 13px;
