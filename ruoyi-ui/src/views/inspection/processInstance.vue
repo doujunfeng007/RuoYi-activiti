@@ -2,16 +2,16 @@
     <div>
         <div class="search-bar">
             <div>
-                <label>流程名称:</label>
-                <el-input type="text" v-model="searchParams.name" />
+                <label>流程名称</label>
+                <el-input type="text" v-model="searchParams.name" size="small"/>
             </div>
             <div>
-                <label>业务号:</label>
-                <el-input type="text" v-model="searchParams.bussinesskey" />
+                <label>业务号</label>
+                <el-input type="text" v-model="searchParams.bussinesskey" size="small"/>
             </div>
             <div>
-                <el-button type="success" @click="search">搜索</el-button>
-                <el-button type="warning" @click="reset">重置</el-button>
+                <el-button type="primary" @click="search" size="mini" icon="el-icon-search">搜索</el-button>
+                <el-button type="default" @click="reset" size="mini" icon="el-icon-refresh">重置</el-button>
             </div>
         </div>
         <table-template
@@ -58,17 +58,17 @@
                     <template slot-scope="scope">
                         <el-button
                         size="mini"
-                        type="danger"
+                        type="text"
                         @click="showProcess(scope.$index, scope.row)">流程进度</el-button>
                         <el-button
                         v-if="!scope.row.suspended"
                         size="mini"
-                        type="primary"
+                        type="text"
                         @click="handleEnable(false, scope.row)">挂起</el-button>
                         <el-button
                         v-else
                         size="mini"
-                        type="success"
+                        type="text"
                         @click="handleEnable(true, scope.row)">唤醒</el-button>
                     </template>
                 </el-table-column>
@@ -158,9 +158,17 @@ export default {
     margin-top: 8px;
     margin-left: 8px;
 }
-.el-input {
+.search-bar > *{
+    margin-right: 8px;
+}
+.search-bar .el-input {
     display: inline-block;
     width: 300px;
     margin-right: 10px;
+}
+.search-bar label {
+    font-size: 14px;
+    color: #606266;
+    margin-right: 8px;
 }
 </style>

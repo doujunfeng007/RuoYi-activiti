@@ -2,14 +2,14 @@
     <div>
         <div class="search-bar">
             <div>
-                <label>请假类型:</label>
+                <label>请假类型</label>
                 <el-select v-model="searchParams.leaveType" size="small">
                     <el-option label="所有" value="" :key="99"></el-option>
                     <el-option v-for="(leaveType, i) in leaveTypeList" :label="leaveType" :value="leaveType" :key="i"></el-option>
                 </el-select>
             </div>
             <div>
-                <label>申请时间:</label>
+                <label>申请时间</label>
                 <el-date-picker
                     size="small"
                     v-model="searchParams.range"
@@ -73,6 +73,7 @@
                         <el-button
                         size="mini"
                         type="text"
+                        icon="el-icon-delete"
                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -265,6 +266,9 @@ export default {
     display: flex;
     margin-top: 8px;
     margin-left: 8px;
+}
+.search-bar > *{
+    margin-right: 8px;
 }
 .search-bar .el-input {
     display: inline-block;

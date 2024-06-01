@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="padding-left: 8px;">
         <el-tabs v-model="activeName" @tab-click="handleTabClick">
             <el-tab-pane label="定时作业" name="1"></el-tab-pane>
             <el-tab-pane label="异步作业" name="2"></el-tab-pane>
@@ -9,7 +9,7 @@
         <div class="search-bar">
             <div>
                 <label>流程定义ID:</label>
-                <el-input type="text" v-model="searchParams.processDefinitionId" />
+                <el-input type="text" v-model="searchParams.processDefinitionId" size="small"/>
             </div>
             <div v-if="activeName !== '3'">
                 <label>计划执行时间:</label>
@@ -19,12 +19,14 @@
                     type="daterange"
                     range-separator="至"
                     start-placeholder="开始日期"
-                    end-placeholder="结束日期">
+                    end-placeholder="结束日期"
+                    size="small"
+                >
                 </el-date-picker>
             </div>
             <div>
-                <el-button type="success" @click="search">搜索</el-button>
-                <el-button type="warning" @click="reset">重置</el-button>
+                <el-button type="primary" @click="search" size="mini" icon="el-icon-search">搜索</el-button>
+                <el-button type="default" @click="reset" size="mini" icon="el-icon-refresh">重置</el-button>
             </div>
         </div>
         <table-template :data="tableData" :total="total">
@@ -153,9 +155,17 @@ export default {
     margin-top: 8px;
     margin-left: 8px;
 }
-.el-input {
+.search-bar > *{
+    margin-right: 8px;
+}
+.search-bar .el-input {
     display: inline-block;
     width: 300px;
     margin-right: 10px;
+}
+.search-bar label {
+    font-size: 14px;
+    color: #606266;
+    margin-right: 8px;
 }
 </style>

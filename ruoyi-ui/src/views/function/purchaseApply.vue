@@ -17,8 +17,8 @@
                 <el-input type="text" v-model="searchParams.applier" />
             </div>
             <div>
-                <el-button type="success" @click="search">搜索</el-button>
-                <el-button type="warning" @click="reset">重置</el-button>
+                <el-button type="primary" @click="search" size="mini" icon="el-icon-search">搜索</el-button>
+                <el-button type="default" @click="reset" size="mini" icon="el-icon-refresh">重置</el-button>
             </div>
         </div>
         <table-template
@@ -29,9 +29,9 @@
             @page-change="handlePageChange"
         >
             <template #toolbar>
-                <el-button type="primary" @click="dialogVisible = true">添加</el-button>
-                <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleMultipleDelete">删除</el-button>
-                <el-button type="warning" @click="handleExport">导出</el-button>
+                <el-button type="primary" @click="dialogVisible = true" plain icon="el-icon-plus" size="mini">添加</el-button>
+                <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleMultipleDelete" plain icon="el-icon-delete" size="mini">删除</el-button>
+                <el-button type="warning" @click="handleExport" plain icon="el-icon-download" size="mini">导出</el-button>
             </template>
             <template #columns>
                 <el-table-column
@@ -56,7 +56,8 @@
                     <template slot-scope="scope">
                         <el-button
                         size="mini"
-                        type="danger"
+                        type="text"
+                        icon="el-icon-delete"
                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -272,10 +273,18 @@ export default {
     margin-top: 8px;
     margin-left: 8px;
 }
+.search-bar > *{
+    margin-right: 8px;
+}
 .search-bar .el-input {
     display: inline-block;
     width: 300px;
     margin-right: 10px;
+}
+.search-bar label {
+    font-size: 14px;
+    color: #606266;
+    margin-right: 8px;
 }
 
 </style>

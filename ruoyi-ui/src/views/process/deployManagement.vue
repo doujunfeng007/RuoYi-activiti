@@ -2,15 +2,15 @@
     <div>
         <div class="search-bar">
             <div>
-                <label>流程标识:</label>
+                <label>流程标识</label>
                 <el-input v-model="searchParams.key" size="small"></el-input>
             </div>
             <div>
-                <label>流程名称:</label>
+                <label>流程名称</label>
                 <el-input v-model="searchParams.name" size="small"></el-input>
             </div>
             <div>
-                <label>版本:</label>
+                <label>版本</label>
                 <el-select v-model="searchParams.latest" size="small">
                     <el-option label="只看新版本" value="true"></el-option>
                     <el-option label="全部版本" value="false"></el-option>
@@ -23,7 +23,7 @@
         </div>
         <table-template :data="tableData" :total="total" @page-change="handlePageChange">
             <template #toolbar>
-                <el-button type="primary" @click="showAddDialog = true" plain>部署</el-button>
+                <el-button type="primary" @click="showAddDialog = true" plain size="mini">部署</el-button>
             </template>
             <template #columns>
                 <el-table-column

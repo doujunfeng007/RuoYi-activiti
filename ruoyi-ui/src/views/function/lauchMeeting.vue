@@ -2,19 +2,19 @@
     <div>
         <div class="search-bar">
             <div>
-                <label>会议主题:</label>
+                <label>会议主题</label>
                 <el-input type="text" v-model="searchParams.topic" size="small" />
             </div>
             <div>
-                <label>主持人:</label>
+                <label>主持人</label>
                 <el-input type="text" v-model="searchParams.host"  size="small"/>
             </div>
             <div>
-                <label>会议地址:</label>
+                <label>会议地址</label>
                 <el-input type="text" v-model="searchParams.place"  size="small" />
             </div>
             <div>
-                <label>参会人员:</label>
+                <label>参会人员</label>
                 <el-input type="text" v-model="searchParams.peoplelist" size="small" />
             </div>
             <div>
@@ -30,9 +30,9 @@
             @page-change="handlePageChange"
         >
             <template #toolbar>
-                <el-button type="primary" @click="dialogVisible = true" plain icon="el-icon-plus">添加</el-button>
-                <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleDelelteMultiple" plain icon="el-icon-delete">删除</el-button>
-                <el-button type="warning" @click="handleExport" plain icon="el-icon-download">导出</el-button>
+                <el-button type="primary" @click="dialogVisible = true" plain icon="el-icon-plus" size="mini">添加</el-button>
+                <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleDelelteMultiple" plain icon="el-icon-delete" size="mini">删除</el-button>
+                <el-button type="warning" @click="handleExport" plain icon="el-icon-download" size="mini">导出</el-button>
             </template>
             <template #columns>
                 <el-table-column
@@ -67,6 +67,7 @@
                         <el-button
                         size="mini"
                         type="text"
+                        icon="el-icon-delete"
                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
