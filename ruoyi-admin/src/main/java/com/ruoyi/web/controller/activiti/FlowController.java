@@ -133,7 +133,7 @@ public class FlowController extends BaseController {
     @RequestMapping(value = "/showresource", method = RequestMethod.GET)
     public void showresource(@RequestParam("pdid") String pdid,
                        HttpServletResponse response) throws Exception {
-        response.setContentType("application/x-png");
+        response.setContentType("image/jpeg;charset=UTF-8");
         response.setHeader("Content-Disposition","inline;filename=process.jpg");
         BpmnModel bpmnModel = repositoryService.getBpmnModel(pdid);
         ProcessDiagramGenerator diagramGenerator = configuration.getProcessDiagramGenerator();
