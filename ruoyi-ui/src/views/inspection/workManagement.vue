@@ -1,6 +1,6 @@
 <template>
-    <div style="padding-left: 8px;">
-        <el-tabs v-model="activeName" @tab-click="handleTabClick">
+    <div class="c-work-management" style="margin: 0px 8px 8px;">
+        <el-tabs v-model="activeName" @tab-click="handleTabClick" type="border-card">
             <el-tab-pane label="定时作业" name="1"></el-tab-pane>
             <el-tab-pane label="异步作业" name="2"></el-tab-pane>
             <el-tab-pane label="挂起作业" name="3"></el-tab-pane>
@@ -24,7 +24,7 @@
                 >
                 </el-date-picker>
             </div>
-            <div>
+            <div class="btns">
                 <el-button type="primary" @click="search" size="mini" icon="el-icon-search">搜索</el-button>
                 <el-button type="default" @click="reset" size="mini" icon="el-icon-refresh">重置</el-button>
             </div>
@@ -98,18 +98,6 @@ export default {
         }
     },
     mounted() {
-        // getListJobs(1, {
-        //     pageSize: 10,
-        //     pageNum: 1,
-        //     isAsc: "asc",
-        //     processDefinitionId: "",
-        //     startDate: "",
-        //     endDate: ""
-        //     // "params[beginApplyTime]": "",
-        //     // "params[endApplyTime]": ""
-        // }).then(res => {
-        //     this.responseData = res;
-        // });
         this.getListJobByParamsAndRender(this.transferedSearchParams);
     },
     methods: {
@@ -150,10 +138,20 @@ export default {
 };
 </script>
 <style scoped>
+.c-work-management {
+    background: #FFFFFF;
+    border: 1px solid #DCDFE6;
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
+}
 .search-bar {
     display: flex;
     margin-top: 8px;
     margin-left: 8px;
+}
+.el-tabs--border-card {
+    border: none;
+    box-shadow: none;
 }
 .search-bar > *{
     margin-right: 8px;
@@ -168,4 +166,11 @@ export default {
     color: #606266;
     margin-right: 8px;
 }
+.el-button {
+    height: 32px;
+}
+</style>
+
+<style>
+
 </style>

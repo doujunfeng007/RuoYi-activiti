@@ -1,6 +1,6 @@
 <template>
     <div class="c-leaveapply-form">
-        <el-form  ref="form" :model="form" label-width="80px">
+        <el-form  ref="form" :model="form" label-width="120px">
             <el-form-item label="请假人">
                 <el-input v-model="form.userId" :disabled="canNotEdit"></el-input>
             </el-form-item>
