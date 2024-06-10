@@ -179,8 +179,11 @@ export default {
         handleExport(index, row) {
             const {key ,id} = row;
             const a = document.createElement("a");
-            a.href="/model/manage/export/" + id
-            a.download = key + ".bpmn.xml";
+            let url = "/model/manage/export/" + id;
+            if (process.env.NODE_ENV === "development") {
+                url = "http://localhost:8080" + url;
+            }
+            a.href = url;
             a.click();
         },
         handleDelete(index, row) {

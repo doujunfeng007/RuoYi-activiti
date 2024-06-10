@@ -188,7 +188,7 @@ export default {
         },
         reset() {
             this.searchParams.name = "";
-            this.searchParams.businessKey = "";
+            this.searchParams.bussinesskey = "";
             this.getListHistoryProcessByParamsAndRender(this.searchParams);
         },
         handlePageChange({pageNum, pageSize}) {

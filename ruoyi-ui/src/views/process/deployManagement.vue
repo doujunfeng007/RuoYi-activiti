@@ -209,6 +209,7 @@ export default {
         },
         handleProcess(index, row) {
             const {id} = row;
+            console.log("id是多少", id);
             const path = `/flow/manage/showresource?pdid=${id}`;
             commonHelper.openWindow(path);
         },
