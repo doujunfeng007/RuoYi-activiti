@@ -69,7 +69,7 @@ export default {
                         label: "流程定义编号"
                     },
                     {
-                        key: "jobType",
+                        key: "jobHandlerType",
                         label: "作业类型"
                     },
                     {
@@ -81,7 +81,7 @@ export default {
                         label: "流程实例编号"
                     },
                     {
-                        key: "revision",
+                        key: "retries",
                         label: "剩余重试次数"
                     }
                 ],
@@ -91,7 +91,7 @@ export default {
                         label: "流程定义编号"
                     },
                     {
-                        key: "jobType",
+                        key: "jobHandlerType",
                         label: "作业类型"
                     },
                     {
@@ -103,7 +103,7 @@ export default {
                         label: "流程实例编号"
                     },
                     {
-                        key: "revision",
+                        key: "retries",
                         label: "剩余重试次数"
                     }
                 ],
@@ -113,7 +113,7 @@ export default {
                         label: "流程定义编号"
                     },
                     {
-                        key: "jobType",
+                        key: "jobHandlerType",
                         label: "作业类型"
                     },
                     {
@@ -125,7 +125,7 @@ export default {
                         label: "流程实例编号"
                     },
                     {
-                        key: "revision",
+                        key: "retries",
                         label: "剩余重试次数"
                     }
                 ],
@@ -135,7 +135,7 @@ export default {
                         label: "流程定义编号"
                     },
                     {
-                        key: "jobType",
+                        key: "jobHandlerType",
                         label: "作业类型"
                     },
                     {
