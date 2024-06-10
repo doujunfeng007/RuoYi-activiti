@@ -20,6 +20,7 @@ public class DataImport implements JavaDelegate {
         for (Leaveapply apply : applys) {
             System.out.println("请假信息" + apply.toString());
         }
+
         try {
             Thread.sleep(10000000);
         } catch (InterruptedException e) {
