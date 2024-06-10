@@ -204,7 +204,7 @@ public class FlowController extends BaseController {
     @ApiOperation("激活一个流程定义")
     @RequestMapping(value = "/activateProcessDefinition", method = RequestMethod.GET)
     @ResponseBody
-    public AjaxResult activateProcessDefinition(@RequestParam("pdid") String pdid, @RequestParam("flag") Boolean flag, @RequestParam(value="date") String date) throws Exception {
+    public AjaxResult activateProcessDefinition(@RequestParam("pdid") String pdid, @RequestParam("flag") Boolean flag, @RequestParam(value="date", required = false) String date) throws Exception {
         if (StringUtils.isNotEmpty(date)) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             repositoryService.activateProcessDefinitionById(pdid, flag,  sdf.parse(date));
