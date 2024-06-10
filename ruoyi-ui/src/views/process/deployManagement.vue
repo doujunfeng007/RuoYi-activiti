@@ -241,11 +241,13 @@ export default {
             this.type === "hang" && suspendProcess(params).then(() => {
                 this.$message.success("挂起成功!");
                 this.showHangOffDialog = false;
+                this.getListAndRenderByParams(this.searchParams)
             });
 
             this.type === "active" && activateProcess(params).then(() => {
                 this.$message.success("激活成功!");
                 this.showHangOffDialog = false;
+                this.getListAndRenderByParams(this.searchParams)
             });
         },
         handleDelete(index, row) {
