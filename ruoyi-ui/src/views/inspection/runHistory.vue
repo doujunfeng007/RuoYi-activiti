@@ -38,7 +38,9 @@
                 </el-table-column>
                 <el-table-column
                     prop="ended"
-                    label="是否结束">
+                    label="是否结束"
+                    :formatter="handleEnded"
+                >
                 </el-table-column>
                 <el-table-column
                     prop="startTime"
@@ -170,6 +172,9 @@ export default {
         this.getListHistoryProcessByParamsAndRender(this.searchParams);
     },
     methods: {
+        handleEnded(row) {
+            return row.ended ? "是" : "否";
+        },
         getListHistoryProcessByParamsAndRender(params) {
             const {pageNum = 1, pageSize = 10, name = "", bussinesskey = ""} = params;
             getListHistoryProcess({
@@ -188,7 +193,7 @@ export default {
         },
         reset() {
             this.searchParams.name = "";
-            this.searchParams.businessKey = "";
+            this.searchParams.bussinesskey = "";
             this.getListHistoryProcessByParamsAndRender(this.searchParams);
         },
         handlePageChange({pageNum, pageSize}) {

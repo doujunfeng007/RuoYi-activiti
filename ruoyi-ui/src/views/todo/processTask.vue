@@ -128,11 +128,9 @@ export default {
                     const id = this.$route.query.id;
                     const taskId = this.taskId;
                     checkoutLeave({
+                        ...data,
                         id,
-                        taskId,
-                        realityEndTime,
-                        realityStartTime,
-                        reapply
+                        taskId
                     }).then(res => {
                         console.log("销假成功！");
                     });
@@ -140,8 +138,14 @@ export default {
             }
 
             if (this.taskType === "purchase") {
+                const id = this.$route.query.id;
+                const taskId = this.taskId;
                 if ( this.step === "updateapply") {
-                    updatePurchase(data).then(res => {
+                    updatePurchase({
+                        ...data,
+                        id,
+                        taskId
+                    }).then(res => {
                         console.log("更新成功!");
                     });
                 }

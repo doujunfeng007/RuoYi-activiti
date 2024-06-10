@@ -42,7 +42,9 @@
                 </el-table-column>
                 <el-table-column
                     prop="suspended"
-                    label="是否挂起">
+                    label="是否挂起"
+                    :formatter="handleSuspend"
+                >
                 </el-table-column>
                 <el-table-column
                     prop="startTime"
@@ -110,24 +112,28 @@ export default {
         this.getListProcessByParamsAndRender(this.searchParams);
     },
     methods: {
+        handleSuspend(row) {
+            return row.suspended ? "是" : "否"
+        },
         getListProcessByParamsAndRender(params) {
-            const {name = "", businessKey = "", pageSize = 10, pageNum = 1} = params;
+            const {name = "", bussinesskey = "", pageSize = 10, pageNum = 1} = params;
             return getListProcess({
                 pageSize,
                 pageNum,
                 isAsc: "asc",
                 name,
-                businessKey
+                bussinesskey
             }).then(res => {
                 this.responseData = res;
             });
         },
         search() {
+            console.log("搜索得参数", this.searchParams);
             this.getListProcessByParamsAndRender(this.searchParams);
         },
         reset() {
             this.searchParams.name = "";
-            this.searchParams.businessKey = "";
+            this.searchParams.bussinesskey = "";
             this.getListProcessByParamsAndRender(this.searchParams);
         },
         handlePageChange({pageNum, pageSize}) {

@@ -13,8 +13,8 @@
                 <el-date-picker
                     size="small"
                     v-model="searchParams.range"
-                    value-format="yyyy-MM-dd"
-                    type="daterange"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    type="datetimerange"
                     range-separator="至"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期">
@@ -35,7 +35,6 @@
             <template #toolbar>
                 <el-button type="primary" @click="dialogVisible = true" plain icon="el-icon-plus" size="mini">添加</el-button>
                 <el-button type="danger" :disabled="currentSelection.length === 0" @click="handleMultipleDelete" plain icon="el-icon-delete" size="mini">删除</el-button>
-                <el-button type="warning" @click="handleExport" plain icon="el-icon-download" size="mini">导出</el-button>
             </template>
             <template #columns>
                 <el-table-column
@@ -248,7 +247,7 @@ export default {
             deleteLeave({
                 ids
             }).then(() => {
-                this.$message("删除成功!")
+                this.$message.error("删除成功!")
                 this.getLeaveApplyListAndRender(this.searchParams);
             })
         },

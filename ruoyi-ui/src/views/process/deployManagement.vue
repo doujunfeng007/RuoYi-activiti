@@ -68,7 +68,7 @@
                 <el-table-column
                     prop="version"
                     label="操作"
-                    width="320"
+                    width="240"
                 >
                     <template slot-scope="scope">
                         <el-button
@@ -209,6 +209,7 @@ export default {
         },
         handleProcess(index, row) {
             const {id} = row;
+            console.log("id是多少", id);
             const path = `/flow/manage/showresource?pdid=${id}`;
             commonHelper.openWindow(path);
         },
@@ -240,11 +241,13 @@ export default {
             this.type === "hang" && suspendProcess(params).then(() => {
                 this.$message.success("挂起成功!");
                 this.showHangOffDialog = false;
+                this.getListAndRenderByParams(this.searchParams)
             });
 
             this.type === "active" && activateProcess(params).then(() => {
                 this.$message.success("激活成功!");
                 this.showHangOffDialog = false;
+                this.getListAndRenderByParams(this.searchParams)
             });
         },
         handleDelete(index, row) {
