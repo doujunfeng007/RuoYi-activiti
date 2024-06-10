@@ -15,8 +15,8 @@
                 <label>计划执行时间:</label>
                 <el-date-picker
                     v-model="searchParams.range"
-                    value-format="yyyy-MM-dd"
-                    type="daterange"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    type="datetimerange"
                     range-separator="至"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
@@ -32,25 +32,11 @@
         <table-template :data="tableData" :total="total">
             <template #columns>
                 <el-table-column
-                    prop="processDefinitionId"
-                    label="流程定义编号">
-                </el-table-column>
-                <el-table-column
-                    prop="jobType"
-                    label="作业类型">
-                </el-table-column>
-                <el-table-column
-                    prop="duedate"
-                    label="计划执行时间">
-                </el-table-column>
-                <el-table-column
-                    prop="processInstanceId"
-                    label="流程实例编号">
-                </el-table-column>
-                <el-table-column
-                    prop="revision"
-                    label="剩余重试次数">
-                </el-table-column>
+                    v-for="(column, i) in currentColumns"
+                    :key="i"
+                    :prop="column.key"
+                    :label="column.label"
+                ></el-table-column>
             </template>
         </table-template>
     </div>
@@ -59,6 +45,7 @@
 <script>
 import TableTemplate from "@/components/TableTemplate";
 import {getListJobs} from "./api";
+import commonUtil from "@/utils/common"
 
 export default {
     name: "RunHistory",
@@ -74,7 +61,96 @@ export default {
                 range: null,
                 pageNum: 1,
                 pageSize: 10
-
+            },
+            columns: {
+                1: [
+                    {
+                        key: "processDefinitionId",
+                        label: "流程定义编号"
+                    },
+                    {
+                        key: "jobType",
+                        label: "作业类型"
+                    },
+                    {
+                        key: "duedate",
+                        label: "计划执行时间"
+                    },
+                    {
+                        key: "processInstanceId",
+                        label: "流程实例编号"
+                    },
+                    {
+                        key: "revision",
+                        label: "剩余重试次数"
+                    }
+                ],
+                2: [
+                    {
+                        key: "processDefinitionId",
+                        label: "流程定义编号"
+                    },
+                    {
+                        key: "jobType",
+                        label: "作业类型"
+                    },
+                    {
+                        key: "duedate",
+                        label: "计划执行时间"
+                    },
+                    {
+                        key: "processInstanceId",
+                        label: "流程实例编号"
+                    },
+                    {
+                        key: "revision",
+                        label: "剩余重试次数"
+                    }
+                ],
+                3: [
+                    {
+                        key: "processDefinitionId",
+                        label: "流程定义编号"
+                    },
+                    {
+                        key: "jobType",
+                        label: "作业类型"
+                    },
+                    {
+                        key: "duedate",
+                        label: "计划执行时间"
+                    },
+                    {
+                        key: "processInstanceId",
+                        label: "流程实例编号"
+                    },
+                    {
+                        key: "revision",
+                        label: "剩余重试次数"
+                    }
+                ],
+                4: [
+                    {
+                        key: "processDefId",
+                        label: "流程定义编号"
+                    },
+                    {
+                        key: "jobType",
+                        label: "作业类型"
+                    },
+                    {
+                        key: "dueDate",
+                        label: "计划执行时间"
+                    },
+                    {
+                        key: "processInstanceId",
+                        label: "流程实例编号"
+                    },
+                    {
+                        key: "exceptionMessage",
+                        label: "异常信息"
+                    }
+                ]
             }
         };
     },
@@ -84,6 +160,9 @@ export default {
         },
         total() {
             return this.responseData.total || 0
+        },
+        currentColumns() {
+            return this.columns[this.activeName];
         },
         transferedSearchParams() {
             return {
@@ -128,12 +207,28 @@ export default {
                 startDate,
                 endDate
             }).then(res => {
-                this.responseData = res;
+                // 转化一下时间
+                console.log("this.activeName", this.activeName);
+                if (
+                    this.activeName === "1"
+                    || this.activeName === "2"
+                    || this.activeName === "3"
+                ) {
+                    res.rows.map(item => {
+                        item.duedate = commonUtil.normalizeDateTimeString(item.duedate);
+                    });
+                }
+                if (this.activeName === "4") {
+                    res.rows.map(item => {
+                        item.dueDate = commonUtil.normalizeDateTimeString(item.dueDate);
+                    });
+                }
+               this.responseData = res;
             });
         },
         handleTabClick(tab) {
             this.getListJobByParamsAndRender(this.transferedSearchParams);
-        },
+        }
     },
 };
 </script>
