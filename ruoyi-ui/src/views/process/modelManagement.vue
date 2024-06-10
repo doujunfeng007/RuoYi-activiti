@@ -2,11 +2,11 @@
     <div class="c-model">
         <div class="search-bar">
             <div>
-                <label>模型标志</label>
+                <label>模型标识</label>
                 <el-input v-model="searchParams.key" size="small"></el-input>
             </div>
             <div>
-                <label>模型标志</label>
+                <label>模型名称</label>
                  <el-input v-model="searchParams.name" size="small"></el-input>
             </div>
             <div>
@@ -79,10 +79,9 @@
         <el-dialog
             title="新建模型"
             :visible.sync="showAddDialog"
-            width="30%"
         >
             <el-form ref="form" :model="form" label-width="80px">
-                <el-form-item label="标识模型">
+                <el-form-item label="模型标识">
                     <el-input v-model="form.key"></el-input>
                 </el-form-item>
                 <el-form-item label="模型名称">
@@ -233,5 +232,8 @@ label {
     display: inline-block;
     width: 300px;
     margin-right: 10px;
+}
+.el-textarea {
+    width: 300px;
 }
 </style>

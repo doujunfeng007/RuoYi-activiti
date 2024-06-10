@@ -124,7 +124,8 @@ export default {
                 endTime: "",
                 startTime: "",
                 reason: "",
-                leaveType: ""
+                leaveType: "",
+                comment: ""
             },
        
             userList: []
@@ -141,6 +142,7 @@ export default {
             this.form.endTime = newFormData.endTime;
             this.form.startTime = newFormData.startTime;
             this.form.reason = newFormData.reason;
+            this.form.comment = newFormData.comment;
             this.form.leaveType = newFormData.leaveType;
             this.form.realityEndTime = newFormData.realityEndTime;
             this.form.realityStartTime = newFormData.realityStartTime;
@@ -155,12 +157,8 @@ export default {
     methods: {
         onSubmit() {
             this.$emit("submit", {
+                ...this.form,
                 [stepMap[this.step]]: this.form.resource,
-                comment: this.form.comment,
-                realityStartTime: this.realityStartTime,
-                realityEndTime: this.realityEndTime,
-                hr: this.form.hr,
-                reapply: this.form.reapply
             });
         },
         reject() {

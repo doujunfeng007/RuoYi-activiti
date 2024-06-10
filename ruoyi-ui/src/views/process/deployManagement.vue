@@ -68,7 +68,7 @@
                 <el-table-column
                     prop="version"
                     label="操作"
-                    width="320"
+                    width="240"
                 >
                     <template slot-scope="scope">
                         <el-button

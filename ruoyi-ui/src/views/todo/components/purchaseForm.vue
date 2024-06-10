@@ -67,7 +67,8 @@ export default {
                 applyer: "",
                 applytime: "",
                 itemlist: "",
-                total: ""
+                total: "",
+                comment: ""
             }
         };
     },
@@ -77,6 +78,7 @@ export default {
             this.form.applytime = newFormValue.applytime;
             this.form.itemlist = newFormValue.itemlist;
             this.form.total = newFormValue.total;
+            this.form.comment = newFormValue.comment;
         }
     },
     computed: {
@@ -87,9 +89,8 @@ export default {
     methods: {
         onSubmit() {
             this.$emit("submit", {
-                comment: this.form.comment,
-                [keyMap[this.step]]: this.form.result,
-                updateapply: this.form.updateapply
+                ...this.form,
+                [keyMap[this.step]]: this.form.result
             })
         }
     }
