@@ -291,7 +291,9 @@ public class FlowMonitorController extends BaseController {
         variables.forEach(v->{
             VariableInfo info = new VariableInfo();
             BeanUtils.copyBeanProp(info, v);
-            info.setValue(v.getValue().toString());
+            if (v.getValue() != null) {
+                info.setValue(v.getValue().toString());
+            }
             infos.add(info);
         });
         TableDataInfo rspData = new TableDataInfo();
@@ -372,7 +374,7 @@ public class FlowMonitorController extends BaseController {
             total = condition.orderByJobDuedate().desc().list().size();
             jobList = condition.orderByJobDuedate().desc().listPage(start, pageSize);
 
-            jobList.stream().forEach(j->{
+            jobList.forEach(j->{
                 DeadLetterJob job = new DeadLetterJob();
                 job.setId(j.getId());
                 job.setDueDate(j.getDuedate());
