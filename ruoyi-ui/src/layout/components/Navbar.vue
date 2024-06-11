@@ -7,6 +7,7 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
+        <span class="right-menu-item " style="cursor: pointer" @click="onlineKe()"><span class="flows">驰骋BPM</span></span>
         <search id="header-search" class="right-menu-item" />
 
         <el-tooltip content="源码地址" effect="dark" placement="bottom">
@@ -105,6 +106,9 @@ export default {
           location.href = '/index';
         })
       }).catch(() => {});
+    },
+    onlineKe(){
+      window.open('http://ccflow.org/?frm=RY_AC','_blank')
     }
   }
 }
