@@ -17,22 +17,9 @@ function objectToQueryStr(obj, filterNull = false) {
     console.log(queryStr);
     return queryStr.slice(1);
 }
-function openWindow(path, prefix) {
-    if (prefix) {
-        window.open(prefix + "" + url);
-    } else {
-        const location  = window.location;
-        const origin = location.origin;
-        if (origin.indexOf("localhost") > -1) {
-            return window.open(`http://localhost:8080${path}`)
-        }
-        const pathPrefix = origin + (
-            location.port
-            ? ""
-            : ":8080"
-        );
-        window.open(pathPrefix + "" + path)
-    }
+function openWindow(path) {
+    const prefix = process.env.VUE_APP_TAB_URL_PREFIX;
+    window.open(prefix + "" + path);
 }
 
 // 运行实例

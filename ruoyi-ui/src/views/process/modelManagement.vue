@@ -178,10 +178,7 @@ export default {
         handleExport(index, row) {
             const {key ,id} = row;
             const a = document.createElement("a");
-            let url = "/model/manage/export/" + id;
-            if (process.env.NODE_ENV === "development") {
-                url = "http://localhost:8080" + url;
-            }
+            const url = process.env.VUE_APP_TAB_URL_PREFIX + "/model/manage/export/" + id;
             a.href = url;
             a.click();
         },
