@@ -72,12 +72,12 @@ function normalizeDateTimeString(rawDatatimeStr) {
         const dateObj = new Date(rawDatatimeStr);
 
         const yyyy = dateObj.getFullYear();
-        const MM = dateObj.getMonth();
+        const MM = dateObj.getMonth() + 1;
         const dd = dateObj.getDate();
 
         const HH = dateObj.getHours();
         const mm = dateObj.getMinutes();
-        const ss = dateObj.getDate();
+        const ss = dateObj.getSeconds();
 
         return `${yyyy}-${genNumStr(MM)}-${genNumStr(dd)} ${genNumStr(HH)}:${genNumStr(mm)}:${genNumStr(ss)}`;
     }
