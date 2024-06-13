@@ -195,7 +195,7 @@ export default {
                     this.getModelByParams(this.searchParams);
                  });
             });
-           
+
         },
         search() {
             this.getModelByParams(this.searchParams);
