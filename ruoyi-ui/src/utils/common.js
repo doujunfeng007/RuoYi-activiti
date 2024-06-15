@@ -17,22 +17,9 @@ function objectToQueryStr(obj, filterNull = false) {
     console.log(queryStr);
     return queryStr.slice(1);
 }
-function openWindow(path, prefix) {
-    if (prefix) {
-        window.open(prefix + "" + url);
-    } else {
-        const location  = window.location;
-        const origin = location.origin;
-        if (origin.indexOf("localhost") > -1) {
-            return window.open(`http://localhost:8080${path}`)
-        }
-        const pathPrefix = origin + (
-            location.port
-            ? ""
-            : ":8080"
-        );
-        window.open(pathPrefix + "" + path)
-    }
+function openWindow(path) {
+    const prefix = process.env.VUE_APP_TAB_URL_PREFIX;
+    window.open(prefix + "" + path);
 }
 
 // 运行实例
@@ -72,12 +59,12 @@ function normalizeDateTimeString(rawDatatimeStr) {
         const dateObj = new Date(rawDatatimeStr);
 
         const yyyy = dateObj.getFullYear();
-        const MM = dateObj.getMonth();
+        const MM = dateObj.getMonth() + 1;
         const dd = dateObj.getDate();
 
         const HH = dateObj.getHours();
         const mm = dateObj.getMinutes();
-        const ss = dateObj.getDate();
+        const ss = dateObj.getSeconds();
 
         return `${yyyy}-${genNumStr(MM)}-${genNumStr(dd)} ${genNumStr(HH)}:${genNumStr(mm)}:${genNumStr(ss)}`;
     }

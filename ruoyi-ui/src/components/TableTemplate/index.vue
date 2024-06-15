@@ -78,7 +78,7 @@ export default {
         handleCurrentChange(pageNum) {
             this.$emit("page-change", {
                 pageNum,
-                pageSize: this.pageSize
+                pageSize: this.currentPageSize
             })
         },
         handleSelectionChange(selection) {
