@@ -2,10 +2,11 @@
     <div class="c-purchase-form">
         <el-form  ref="form" :model="form" label-width="100px">
             <el-form-item label="申请人">
-                <el-input v-model="form.applyer" :disabled="canNotEdit"></el-input>
+                <el-input v-model="form.applyer" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="申请时间">
-                <el-input v-model="form.applytime" :disabled="canNotEdit">></el-input>
+                <el-input v-if="step !== 'updateapply'" v-model="form.applytime" :disabled="canNotEdit">></el-input>
+                <el-date-picker v-else type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期" v-model="form.applytime" style="width: 100%;"></el-date-picker>
             </el-form-item>
             <el-form-item label="采购清单">
                 <el-input v-model="form.itemlist" :disabled="canNotEdit">></el-input>

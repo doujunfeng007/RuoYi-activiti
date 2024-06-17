@@ -72,8 +72,8 @@
                 </el-table-column>
             </template>
         </table-template>
-        <el-dialog :visible.sync="dialogVisible">
-            <el-form ref="form" :model="form">
+        <el-dialog :visible.sync="dialogVisible" width="600px">
+            <el-form ref="form" :model="form" label-width="110px">
                 <el-form-item label="会议主题">
                     <el-input v-model="form.topic"></el-input>
                 </el-form-item>

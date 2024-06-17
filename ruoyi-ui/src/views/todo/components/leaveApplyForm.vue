@@ -5,13 +5,18 @@
                 <el-input v-model="form.userId" :disabled="canNotEdit"></el-input>
             </el-form-item>
             <el-form-item label="类型">
-                <el-input v-model="form.leaveType" :disabled="canNotEdit"></el-input>
+                <el-input v-if="step !== 'modifyapply' && step !== 'addleave'" v-model="form.leaveType" :disabled="canNotEdit"></el-input>
+                <el-select v-else v-model="form.leaveType">
+                    <el-option v-for="(leaveType, i) in leaveTypeList" :label="leaveType" :value="leaveType" :key="i"></el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="起始时间">
-                <el-input v-model="form.startTime" :disabled="canNotEdit"></el-input>
+                <el-input v-if="step !== 'modifyapply' && step !== 'addleave'" v-model="form.startTime" :disabled="canNotEdit"></el-input>
+                <el-date-picker v-else type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期" v-model="form.startTime" style="width: 100%;"></el-date-picker>
             </el-form-item>
             <el-form-item label="结束时间">
-                <el-input v-model="form.endTime" :disabled="canNotEdit"></el-input>
+                <el-input v-if="step !== 'modifyapply' && step !== 'addleave'" v-model="form.endTime" :disabled="canNotEdit"></el-input>
+                <el-date-picker v-else type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期" v-model="form.endTime" style="width: 100%;"></el-date-picker>
             </el-form-item>
             <el-form-item label="原因">
                 <el-input v-model="form.reason" :disabled="canNotEdit"></el-input>
@@ -64,8 +69,10 @@
                 </el-form-item>
             </template>
             <template v-if="step==='addleave'">
-                <el-button type="primary" @click="onSubmit">提交</el-button>
-                <el-button type="danger" @click="cancel">撤销</el-button>
+                <el-form-item>
+                    <el-button type="primary" @click="onSubmit">提交</el-button>
+                    <el-button type="danger" @click="cancel">撤销</el-button>
+                </el-form-item>
             </template>
             <template v-if="step==='modifyapply'">
                 <el-form-item label="是否重新申请" >
@@ -127,7 +134,7 @@ export default {
                 leaveType: "",
                 comment: ""
             },
-       
+            leaveTypeList: [" 事假", "病假", "年假", "丧假", "年假"],
             userList: []
         };
     },
@@ -152,6 +159,7 @@ export default {
         listUser().then(res => {
             console.log("获取用户", res);
             this.userList = res.rows;
+            this.form.hr = this.userList[0] && this.userList[0].userName;
         });
     },
     methods: {
