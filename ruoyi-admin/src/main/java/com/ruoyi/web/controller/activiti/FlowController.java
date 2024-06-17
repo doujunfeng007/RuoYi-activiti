@@ -213,14 +213,7 @@ public class FlowController extends BaseController {
         }
         return AjaxResult.success();
     }
-
-    @ApiOperation("激活一个流程定义")
-    @RequestMapping(value = "/startBiShow", method = RequestMethod.GET)
-    @ResponseBody
-    public AjaxResult startBiShow() throws Exception {
-        runtimeService.startProcessInstanceByKey("bi-show" , "1");
-        return AjaxResult.success();
-    }
+    
 
     @ApiOperation("发起一个流程")
     @Log(title = "发起一个流程", businessType = BusinessType.INSERT)

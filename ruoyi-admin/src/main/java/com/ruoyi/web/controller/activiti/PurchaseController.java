@@ -197,7 +197,7 @@ public class PurchaseController extends BaseController
     @ApiOperation("收货确认")
     @GetMapping("/receiveitem")
     @ResponseBody
-    public AjaxResult receiveitem(String taskid, ModelMap mmap)
+    public AjaxResult receiveitem(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
@@ -215,7 +215,7 @@ public class PurchaseController extends BaseController
     @ApiOperation("调整申请")
     @GetMapping("/updateapply")
     @ResponseBody
-    public AjaxResult updateapply(String taskid, ModelMap mmap)
+    public AjaxResult updateapply(String taskid)
     {
         Task t = taskService.createTaskQuery().taskId(taskid).singleResult();
         String processId = t.getProcessInstanceId();
