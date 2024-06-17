@@ -70,7 +70,6 @@ public class LeaveapplyController extends BaseController
         ProcessInstance p = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         if (p != null) {
             Leaveapply apply = leaveapplyService.selectLeaveapplyById(Long.parseLong(p.getBusinessKey()));
-//            mmap.put("userlist", userService.selectUserList(new SysUser()));
             return AjaxResult.success(apply);
         }
         return AjaxResult.error("流程不存在");
