@@ -14,7 +14,7 @@
             <el-form-item label="总价">
                 <el-input v-model="form.total" :disabled="canNotEdit">></el-input>
             </el-form-item>
-            <template v-if="step === 'finance' || step === 'purchasemanager'">
+            <template v-if="step === 'finance' || step === 'purchasemanager' || step ==='manager'">
                 <el-form-item label="审批结果">
                     <el-radio-group v-model="form.result">
                         <el-radio label="true">同意</el-radio>
@@ -46,6 +46,7 @@ const keyMap = {
     finance: "finance",
     pay: "pay",
     receiveitem: "receiveitem",
+    manager: "manager",
     // 拒绝后，申请人重新申请
     updateapply: "updateapply"
 };
