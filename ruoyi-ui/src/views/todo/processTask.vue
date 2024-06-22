@@ -61,6 +61,7 @@ const urlMap = {
     finance: "/purchase/finance",
     pay: "/purchase/pay",
     receiveitem: "/purchase/receiveitem",
+    manager: "/purchase/manager",
     // 拒绝后，申请人重新申请
     updateapply: "/purchase/updateapply",
 
