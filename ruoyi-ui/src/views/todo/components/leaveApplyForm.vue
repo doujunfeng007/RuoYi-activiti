@@ -2,7 +2,7 @@
     <div class="c-leaveapply-form">
         <el-form  ref="form" :model="form" label-width="120px">
             <el-form-item label="请假人">
-                <el-input v-model="form.userId" :disabled="canNotEdit"></el-input>
+                <el-input v-model="form.userId" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="类型">
                 <el-input v-if="step !== 'modifyapply' && step !== 'addleave'" v-model="form.leaveType" :disabled="canNotEdit"></el-input>
