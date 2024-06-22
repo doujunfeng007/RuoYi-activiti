@@ -90,10 +90,13 @@ export default {
     },
     methods: {
         onSubmit() {
-            this.$emit("submit", {
-                ...this.form,
-                [keyMap[this.step]]: this.form.result
-            })
+            const params = {
+                ...this.form
+            };
+            if (this.step !== "updateapply") {
+                params[keyMap[this.step]] = this.form.result;
+            }
+            this.$emit("submit", params)
         }
     }
 };

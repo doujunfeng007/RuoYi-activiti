@@ -84,7 +84,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="财务">
-                    <el-select v-model="form.finance">
+                    <el-select v-model="form.financeName">
                         <el-option
                             v-for="(user, i) in userList" 
                             :key="i"
@@ -104,7 +104,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="总经理">
-                    <el-select v-model="form.manager">
+                    <el-select v-model="form.managerName">
                         <el-option
                             v-for="(user, i) in userList" 
                             :key="i"
@@ -147,9 +147,9 @@ export default {
                 total: "",
                 applyer: this.$store.state.user.name,
                 purchasemanager: "admin",
-                finance: "admin",
+                financeName: "admin",
                 pay: "admin",
-                manager: "admin",
+                managerName: "admin",
             },
             searchParams: {
                 range: [],
