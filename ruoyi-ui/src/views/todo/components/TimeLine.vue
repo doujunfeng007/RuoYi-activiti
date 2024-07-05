@@ -6,10 +6,12 @@
                 :key="index"
             >
                 <el-card>
-                    <div class="c-time-line__paragraph">开始: <span>{{activity.startTime}}</span></div>
-                    <div class="c-time-line__paragraph2">{{activity.assignee}}: {{activity.taskName}}</div>
-                    <div class="c-time-line__paragraph2">{{activity.comment}}</div>
-                    <div class="c-time-line__paragraph">结束: <span>{{activity.endTime}}</span></div>
+                    <div class="c-time-line__card">
+                        <div class="c-time-line__paragraph">开始: <span>{{activity.startTime}}</span></div>
+                        <div class="c-time-line__paragraph2">{{activity.assignee}}: {{activity.taskName}}</div>
+                        <div class="c-time-line__paragraph2">{{activity.comment}}</div>
+                        <div class="c-time-line__paragraph">结束: <span>{{activity.endTime}}</span></div>
+                    </div>
 
                 </el-card>
             </el-timeline-item>
@@ -37,10 +39,11 @@ export default {
 
 <style>
 
-.el-card__body {
+.c-time-line__card {
     width: 330px;
     padding-top: 8px;
     padding-bottom: 8px;
+    margin: -15px -20px -20px 0px;
 }
 .el-timeline-item {
     padding-bottom: 0px;
