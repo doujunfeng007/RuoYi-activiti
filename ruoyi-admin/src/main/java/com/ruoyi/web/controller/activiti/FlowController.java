@@ -32,9 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipInputStream;
 
 /**
@@ -223,7 +221,9 @@ public class FlowController extends BaseController {
     {
         SysUser user = SecurityUtils.getLoginUser().getUser();
         identityService.setAuthenticatedUserId(user.getUserName());
-        runtimeService.startProcessInstanceById(pdid);
+        HashMap<String, Object> v = new HashMap<>();
+        v.put("name", "wsz");
+        runtimeService.startProcessInstanceById(pdid, v);
         return AjaxResult.success();
     }
 }
