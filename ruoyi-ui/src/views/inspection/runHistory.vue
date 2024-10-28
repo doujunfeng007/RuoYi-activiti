@@ -81,6 +81,10 @@
                     label="活动名称">
                 </el-table-column>
                 <el-table-column
+                     prop="type"
+                     label="活动类型">
+                </el-table-column>
+                <el-table-column
                     prop="assignee"
                     label="办理人">
                 </el-table-column>
