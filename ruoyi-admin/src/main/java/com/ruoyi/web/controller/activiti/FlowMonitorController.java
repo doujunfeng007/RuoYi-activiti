@@ -178,8 +178,8 @@ public class FlowMonitorController extends BaseController {
     @ResponseBody
     public TableDataInfo history(@PathVariable String processInstanceId, Integer pageSize, Integer pageNum) {
         int start = (pageNum - 1) * pageSize;
-        List<HistoricActivityInstance> history = historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).activityType("userTask").orderByHistoricActivityInstanceStartTime().asc().listPage(start, pageSize);
-        int total = historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).activityType("userTask").orderByHistoricActivityInstanceStartTime().asc().list().size();
+        List<HistoricActivityInstance> history = historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).orderByHistoricActivityInstanceStartTime().asc().listPage(start, pageSize);
+        int total = historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).orderByHistoricActivityInstanceStartTime().asc().list().size();
         List<TaskInfo> infos  = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         history.stream().forEach(h->{
@@ -191,6 +191,7 @@ public class FlowMonitorController extends BaseController {
             }
             info.setAssignee(h.getAssignee());
             info.setTaskName(h.getActivityName());
+            info.setType(h.getActivityType());
             List<Comment> comments = taskService.getTaskComments(h.getTaskId());
             if (comments.size() > 0) {
                 info.setComment(comments.get(0).getFullMessage());
