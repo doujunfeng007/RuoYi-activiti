@@ -3,21 +3,13 @@
 
 #### 软件架构
 [若依](http://doc.ruoyi.vip/ruoyi/)是有名的开源权限管理系统，集权限管理和代码快速生成于一体，将其作为基础开发平台集成activiti框架完成工作流引擎开发，打造集流程设计、流程部署、流程执行、任务办理、流程监控于一体的强大工作流平台。
-- 在线演示地址http://ryactiviti.ccbpm.cn/
-
-- 加QQ群：824513446
-
-#### 赞助商
-
-- [![驰骋工作流引擎](pic/image.png)](http://ccflow.org/?frm=RY_AC)
-
-
 #### 安装教程
 
 1. 新建mysql数据库ry-activiti，导入SQL脚本ry-activiti.sql。Mysql版本为5.7，字符集选择utf8mb4，排序规则选择utf8mb4_general_ci。
 2. 编译打包后端工程，运行java -jar ruoyi-admin.jar。
 3. 前端代码运行 npm run dev。
 3. 打开http://localhost/login 访问登录页面,账号admin密码是admin123。
+4. 实在不会建议换个项目
 
 #### 使用说明
 
@@ -72,24 +64,9 @@
 - 作业管理
 ![输入图片说明](pic/%E4%BD%9C%E4%B8%9A%E7%AE%A1%E7%90%86.png)
 
-- 荣誉
-
-![输入图片说明](pic/%E8%8D%A3%E8%AA%89.jpg)
-- 技术交流
-
-![输入图片说明](pic/wx.jpg)
-
 ### 好书推荐
 #### 系统全面学习Elasticsearch
 <a href="https://item.m.jd.com/product/13872844.html?gx=RnAomTM2bmHZw5sSrtV0X1UR8iqxJMU&gxd=RnAoy2Fdaj3fy5wdr4V0VNgSE8OMXuDPgPv0y0mTsfJiDQg&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL" target="_blank"><img src="https://gitee.com/shenzhanwang/Spring-elastic_search/raw/master/pic/mmexport1680185330486.jpg" alt="点击购买"></a>
-
-|购买地址|
-|--|
-|![输入图片说明](https://gitee.com/shenzhanwang/RuoYi-activiti/raw/ruoyi-activiti/pic/%E8%B4%AD%E4%B9%B0.jpg)|
-
-#### 系统学习和深入掌握Activiti/Flowable
-<a href="https://item.m.jd.com/product/13928958.html?gx=RnAomTM2bmCImZxDqYAkVCoIHuIYVqc" target="_blank"><img src="https://gitee.com/shenzhanwang/RuoYi-activiti/raw/ruoyi-activiti/pic/ACTIVITI-%E8%B0%83%E6%95%B4.png" alt="点击购买"></a>
-
 
 
 
@@ -104,11 +81,6 @@
 | 6 |  [一种基于数据治理的大数据中台架构系统](https://mp.weixin.qq.com/s?__biz=Mzg5MjY3OTk0OQ==&mid=2247485875&idx=1&sn=db58f023c92ca01cc1902e7bea806a48&chksm=c03b2bd1f74ca2c7b45f993386f443718a99a378a51d9be827c2e45b326c549a868089fbdd31&scene=178&cur_album_id=3268880015212085251#rd)  |  数据中台    |
 
 
-### 视频教程
-
-|<div align=left><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5MjY3OTk0OQ==&action=getalbum&album_id=3242941519414886404#wechat_redirect" target="_blank">Elasticsearch数据搜索与分析实战（精讲版）</a></div> |
-|--|
-|<div align=left><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5MjY3OTk0OQ==&action=getalbum&album_id=2790222720155451398#wechat_redirect" target="_blank">RuoYi-activiti开发指南</a></div> |
 
 
 ### 附录：中央技术储备仓库（Central Technique Reserve Repository）
@@ -152,8 +124,3 @@
 38. 并发控制：使用zookeeper实现分布式锁 
 39. 并发控制：Java多线程编程实例
 40. 并发控制：使用netty实现高性能NIO通信 
-
-
-### 关注微信公众号获取更多技术文章和源码
-
-![输入图片说明](https://gitee.com/shenzhanwang/Spring-elastic_search/raw/master/pic/qrcode_for_gh_4c2318bb0f7f_258.jpg)
