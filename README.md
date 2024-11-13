@@ -64,11 +64,6 @@
 - 作业管理
 ![输入图片说明](pic/%E4%BD%9C%E4%B8%9A%E7%AE%A1%E7%90%86.png)
 
-### 好书推荐
-#### 系统全面学习Elasticsearch
-<a href="https://item.m.jd.com/product/13872844.html?gx=RnAomTM2bmHZw5sSrtV0X1UR8iqxJMU&gxd=RnAoy2Fdaj3fy5wdr4V0VNgSE8OMXuDPgPv0y0mTsfJiDQg&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL" target="_blank"><img src="https://gitee.com/shenzhanwang/Spring-elastic_search/raw/master/pic/mmexport1680185330486.jpg" alt="点击购买"></a>
-
-
 
 ### 专利文章
 |   | 标题 | 技术领域 |
